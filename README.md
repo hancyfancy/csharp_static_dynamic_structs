@@ -1,4 +1,4 @@
-# C Sharp implementation of list, set and bidirectional dictionary
+# C Sharp implementation of list, set and bidirectional map
 Simple one dimensional and two dimensional data structures.
 
 # How to build for Linux?
