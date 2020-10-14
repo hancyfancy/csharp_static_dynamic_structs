@@ -51,6 +51,11 @@ public class DynamicStore<T> : ItemStore<T>, IInsertable<T>, IOneDimensionIterab
                 break;
             }
         }
+        if (index == -1)
+        {
+            MethodBase m = MethodBase.GetCurrentMethod();
+            throw new ArgumentException(m.ReflectedType.Name + "." + m.Name + ": Specified item does not exist.", "item");
+        }
         return index;
     }
     public Int32 GetIndex(T obj)
@@ -90,6 +95,11 @@ public class DynamicStore<T> : ItemStore<T>, IInsertable<T>, IOneDimensionIterab
         if (items[index] != null)
         {
             items[index] = newItem;
+        }
+        else
+        {
+                MethodBase m = MethodBase.GetCurrentMethod();
+                throw new InvalidOperationException(m.ReflectedType.Name + "." + m.Name + ": Null items cannot be replaced, try adding instead.");
         }
         base.Items = items;
     }
