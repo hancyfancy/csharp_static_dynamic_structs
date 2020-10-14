@@ -149,7 +149,7 @@ public class StructTests
         Console.WriteLine(staticReplacedIntegerStore);
         staticReplacedIntegerStore.Replace(1, 7);
         Console.WriteLine(staticReplacedIntegerStore);
-        Console.WriteLine("Index of 9 = " + Convert.ToString(staticReplacedIntegerStore.GetIndex(9)));
+        //Console.WriteLine("Index of 9 = " + Convert.ToString(staticReplacedIntegerStore.GetIndex(9)));
         Console.WriteLine("Item at index 3 = " + Convert.ToString(staticReplacedIntegerStore.Get(3)));
 
         Console.WriteLine("--------------------Dynamic store");
@@ -302,14 +302,15 @@ public class StructTests
         DynamicMap<Int32,String> dynamicSortedIntegerKeyValueStore = new DynamicMap<Int32,String>();
         dynamicSortedIntegerKeyValueStore.Add(88, "Yukon");
         dynamicSortedIntegerKeyValueStore.Add(832, "Bicker");
-        //dynamicSortedIntegerKeyValueStore.Add(832, "Blitzer");
+        dynamicSortedIntegerKeyValueStore.Add(832, "Blitzer");
         dynamicSortedIntegerKeyValueStore.Add(7, "Shulz");
-        //dynamicSortedIntegerKeyValueStore.Add(17, "Shulz");
+        dynamicSortedIntegerKeyValueStore.Add(17, "Shulz");
         dynamicSortedIntegerKeyValueStore.Add(3, "Jems");
         dynamicSortedIntegerKeyValueStore.Sort();
         Console.WriteLine(dynamicSortedIntegerKeyValueStore);
         Console.WriteLine("7 -> " + Convert.ToString(dynamicSortedIntegerKeyValueStore.GetValue(7)));
-        Console.WriteLine("Bicker <- " + Convert.ToString(dynamicSortedIntegerKeyValueStore.GetKey("Bicker")));
+        //Console.WriteLine("Bicker <- " + Convert.ToString(dynamicSortedIntegerKeyValueStore.GetKey("Bicker")));
+        Console.WriteLine("Blitzer <- " + Convert.ToString(dynamicSortedIntegerKeyValueStore.GetKey("Blitzer")));
         Console.WriteLine();
 
         DynamicMap<String,Int32> dynamicSortedStringKeyValueStore = new DynamicMap<String,Int32>();
