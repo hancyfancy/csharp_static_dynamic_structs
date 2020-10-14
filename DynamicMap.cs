@@ -35,14 +35,14 @@ using System.Reflection;
 
 public class DynamicMap<K,V> : ISortable<K>, ITwoDimensionIterable<K,V>, ITwoDimensionStorable<K,V>
 {
-    private DynamicStore<K> _keys;
+    private DynamicUniqueStore<K> _keys;
     private DynamicStore<V> _values;
     public DynamicMap()
     {
-        Keys = new DynamicStore<K>();
+        Keys = new DynamicUniqueStore<K>();
         Values = new DynamicStore<V>();
     }
-    protected DynamicStore<K> Keys
+    protected DynamicUniqueStore<K> Keys
     {
         get
         {
@@ -107,17 +107,9 @@ public class DynamicMap<K,V> : ISortable<K>, ITwoDimensionIterable<K,V>, ITwoDim
     {
         K key = default(K);
         Int32 indexOfVal = GetValueIndex(val);
-        if (indexOfVal == -1)
+        if (Values.Length > indexOfVal)
         {
-            MethodBase m = MethodBase.GetCurrentMethod();
-            throw new ArgumentException(m.ReflectedType.Name + "." + m.Name + ": Specified value does not exist.", "val");
-        }
-        else
-        {
-            if (Values.Length > indexOfVal)
-            {
-                key = GetKeyAtPosition(indexOfVal);
-            }
+            key = GetKeyAtPosition(indexOfVal);
         }
         return key;
     }
@@ -125,29 +117,35 @@ public class DynamicMap<K,V> : ISortable<K>, ITwoDimensionIterable<K,V>, ITwoDim
     {
         V val = default(V);
         Int32 indexOfKey = GetKeyIndex(key);
-        if (indexOfKey == -1)
+        if (Keys.Length > indexOfKey)
         {
-            MethodBase m = MethodBase.GetCurrentMethod();
-            throw new ArgumentException(m.ReflectedType.Name + "." + m.Name + ": Specified key does not exist.", "key");
-        }
-        else
-        {
-            if (Keys.Length > indexOfKey)
-            {
-                val = GetValueAtPosition(indexOfKey);
-            }
+            val = GetValueAtPosition(indexOfKey);
         }
         return val;
     }
     public void Add(K key, V val)
     {
         Keys.Add(key);
-        Values.Add(val);
+        Int32 indexOfKey = GetKeyIndex(key);
+        if (Keys.Length > indexOfKey)
+        {
+            try
+            {
+                Values.Replace(indexOfKey, val);
+            }
+            catch (Exception e)
+            {
+                if (e is IndexOutOfRangeException || e is InvalidOperationException)
+                {
+                    Values.Add(val);
+                }
+            }
+        }
     }
     public void Sort()
     {
-        DynamicStore<K> originalKeys = new DynamicStore<K>();
-        DynamicStore<K> keys = Keys;
+        DynamicUniqueStore<K> originalKeys = new DynamicUniqueStore<K>();
+        DynamicUniqueStore<K> keys = Keys;
         for (Int32 i = 0; i < Length; i++) {
             originalKeys.Add(keys.Get(i));
         }
