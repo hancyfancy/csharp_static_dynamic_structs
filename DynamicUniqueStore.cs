@@ -40,7 +40,12 @@ public class DynamicUniqueStore<T> : DynamicStore<T>
 
     internal override void SetItem(Item<T> newItem)
     {
-        if (base.GetIndex(newItem) == -1) {
+        try
+        {
+            base.GetIndex(newItem);
+        }
+        catch (ArgumentException)
+        {
             Item<T>[] newItems = null;
             Int32 currentIndex = base.CurrentIndex;
             Item<T>[] items = base.Items;
