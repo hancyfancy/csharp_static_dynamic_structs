@@ -60,7 +60,6 @@ Hello
 
 [{Index 0: 0}, {Index 1: 7}, {Index 2: 0}, {Index 3: 0}]
 
-Index of 9 = -1
 Item at index 3 = 0
 --------------------Dynamic store
 [{Index 0: 0}, {Index 1: 255}, {Index 2: 1}, {Index 3: 8}]
@@ -84,7 +83,7 @@ Item at index 3 = 0
 [{Index 0: }, {Index 1: System.Object}]
 
 --------------------Dynamic sorted store
-[{Index 0: 203}, {Index 1: 606}, {Index 2: 922}, {Index 3: 1662}]
+[{Index 0: 209}, {Index 1: 297}, {Index 2: 743}, {Index 3: 1597}]
 
 [{Index 0: Bellow}, {Index 1: Fellow}, {Index 2: Mellow}, {Index 3: Yellow}]
 
@@ -124,11 +123,12 @@ Index 2: Key -> 3, Value -> []
 --------------------Dynamic sorted key value store
 Index 0: Key -> 3, Value -> Jems
 Index 1: Key -> 7, Value -> Shulz
-Index 2: Key -> 88, Value -> Yukon
-Index 3: Key -> 832, Value -> Bicker
+Index 2: Key -> 17, Value -> Shulz
+Index 3: Key -> 88, Value -> Yukon
+Index 4: Key -> 832, Value -> Blitzer
 
 7 -> Shulz
-Bicker <- 832
+Blitzer <- 832
 
 Index 0: Key -> Bicker, Value -> 9
 Index 1: Key -> Jems, Value -> 3
@@ -137,5 +137,4 @@ Index 3: Key -> Yukon, Value -> 8
 
 Yukon -> 8
 3 <- Jems
-
 ```
