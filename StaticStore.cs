@@ -72,6 +72,11 @@ public class StaticStore<T> : ItemStore<T>, IOneDimensionIterable<T>, IOneDimens
                 break;
             }
         }
+        if (index == -1)
+        {
+            MethodBase m = MethodBase.GetCurrentMethod();
+            throw new ArgumentException(m.ReflectedType.Name + "." + m.Name + ": Specified item does not exist.", "item");
+        }
         return index;
     }
     public Int32 GetIndex(T obj)
