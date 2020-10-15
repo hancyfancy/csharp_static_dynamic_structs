@@ -23,16 +23,16 @@ Simple one dimensional and two dimensional data structures.
     - [Mono 32 bit](https://download.mono-project.com/archive/6.12.0/windows-installer/mono-6.12.0.98-gtksharp-2.12.45-win32-0.msi "Mono 32 bit")
     - [Mono 64 bit (no GTK#)](https://download.mono-project.com/archive/6.12.0/windows-installer/mono-6.12.0.98-x64-0.msi "Mono 64 bit (no GTK#)") `&` [GTK#](https://xamarin.azureedge.net/GTKforWindows/Windows/gtk-sharp-2.12.45.msi "GTK#")
 2. Install Mono:
-    - `Install either Mono 32 bit or Mono 64 bit & GTK# depending on your processor`
-    - `Open the Start Menu`
-    - `Right-click on Computer and click Properties`
-    - `Click Advanced system settings`
-    - `Make sure you're on the Advanced tab`
-    - `Click Environment Variables`
-    - `Under System variables, scroll to find the Path Variable`
-    - `Click on Path and then click Edit`
-    - `Add path to Mono (e.g. C:\"Program Files"\Mono\bin) at the end of Path environment variable`
-    - `Click OK on all menus`
+    - Install either Mono 32 bit or Mono 64 bit & GTK# depending on your processor
+    - Open the Start Menu
+    - Right-click on Computer and click Properties
+    - Click Advanced system settings
+    - Make sure you're on the Advanced tab
+    - Click Environment Variables
+    - Under System variables, scroll to find the Path Variable
+    - Click on Path and then click Edit
+    - Add path to Mono (e.g. `C:\"Program Files"\Mono\bin`) at the end of Path environment variable
+    - Click OK on all menus
 ## Compile & Run locally:
 1. Change file permissions:
     - `cacls *.sh /g everyone:f`
