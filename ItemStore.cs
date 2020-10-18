@@ -162,7 +162,7 @@ public abstract class ItemStore<T> : ISortable<T>
             String[] primeNumbersSplit = primeNumbersAsString.Split(",");
             Int32 primeNumbersSplitLength = primeNumbersSplit.Length;
             primeNumbers = new Int32[primeNumbersSplitLength];
-            for (Int32 j = 0; j < primeNumbersSplitLength; j++)
+            for (Int32 j = 0; j < primeNumbersSplitLength-1; j++)
             {
                 primeNumbers[j] = Int32.Parse(primeNumbersSplit[j]);
             }
@@ -177,10 +177,13 @@ public abstract class ItemStore<T> : ISortable<T>
         for (Int32 i = primeNumbers.Length-1; i > -1; i--)
         {
             Int32 currentPrime = primeNumbers[i];
-            if (unsortedItemsLength % currentPrime == 0)
+            if (currentPrime > 0)
             {
-                requiredPrime = currentPrime;
-                break;
+                if (unsortedItemsLength % currentPrime == 0)
+                {
+                    requiredPrime = currentPrime;
+                    break;
+                }
             }
         }
         return (requiredPrime == -1 ? 1 : requiredPrime);
