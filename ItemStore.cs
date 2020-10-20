@@ -296,7 +296,7 @@ public abstract class ItemStore<T> : ISortable<T>
         Int32 minIndex = -1;
         for (Int32 i = 0; i < array.Length; i++)
         {
-            String current = ((Item<T>)array[i]).ToString();
+            String current = array[i].ToString();
             if (MinString(current, min).Equals(current))
             {
                 min = current;
@@ -315,7 +315,7 @@ public abstract class ItemStore<T> : ISortable<T>
         Int32 maxIndex = -1;
         for (Int32 j = 0; j < array.Length; j++)
         {
-            String current = ((Item<T>)array[j]).ToString();
+            String current = array[j].ToString();
             if (MaxString(current, max).Equals(current))
             {
                 max = current;
@@ -351,8 +351,8 @@ public abstract class ItemStore<T> : ISortable<T>
         }
         else if (sortedArrayLength == 2)
         {
-            Item<T> firstItem = (Item<T>)unsortedDivision[0];
-            Item<T> secondItem = (Item<T>)unsortedDivision[1];
+            Item<T> firstItem = unsortedDivision[0];
+            Item<T> secondItem = unsortedDivision[1];
             if (MinString(firstItem.ToString(),secondItem.ToString()).Equals(firstItem.ToString()))
             {
                 sortedDivision[0] = firstItem;
@@ -445,35 +445,35 @@ public abstract class ItemStore<T> : ISortable<T>
             Int32 secondSortOrderIndex = 0;
             while ((firstSortOrderIndex < firstSortOrderLevel.Length) && (secondSortOrderIndex < secondSortOrderLevel.Length))
             {
-                if (MinString(((Item<T>)firstSortOrderLevel[firstSortOrderIndex]).ToString(),((Item<T>)secondSortOrderLevel[secondSortOrderIndex]).ToString()).Equals(((Item<T>)firstSortOrderLevel[firstSortOrderIndex]).ToString()))
+                if (MinString((firstSortOrderLevel[firstSortOrderIndex]).ToString(),(secondSortOrderLevel[secondSortOrderIndex]).ToString()).Equals((firstSortOrderLevel[firstSortOrderIndex]).ToString()))
                 {
-                    subsorted[subsortedIndex] = (Item<T>)firstSortOrderLevel[firstSortOrderIndex];
+                    subsorted[subsortedIndex] = firstSortOrderLevel[firstSortOrderIndex];
                     firstSortOrderIndex++;
                     subsortedIndex++;
                 }
-                else if (MaxString(((Item<T>)firstSortOrderLevel[firstSortOrderIndex]).ToString(),((Item<T>)secondSortOrderLevel[secondSortOrderIndex]).ToString()).Equals(((Item<T>)firstSortOrderLevel[firstSortOrderIndex]).ToString()))
+                else if (MaxString((firstSortOrderLevel[firstSortOrderIndex]).ToString(),(secondSortOrderLevel[secondSortOrderIndex]).ToString()).Equals((firstSortOrderLevel[firstSortOrderIndex]).ToString()))
                 {
-                    subsorted[subsortedIndex] = (Item<T>)secondSortOrderLevel[secondSortOrderIndex];
+                    subsorted[subsortedIndex] = secondSortOrderLevel[secondSortOrderIndex];
                     secondSortOrderIndex++;
                     subsortedIndex++;
                 }
                 else
                 {
-                    subsorted[subsortedIndex] = (Item<T>)firstSortOrderLevel[firstSortOrderIndex];
+                    subsorted[subsortedIndex] = firstSortOrderLevel[firstSortOrderIndex];
                     firstSortOrderIndex++;
-                    subsorted[subsortedIndex+1] = (Item<T>)secondSortOrderLevel[secondSortOrderIndex];
+                    subsorted[subsortedIndex+1] = secondSortOrderLevel[secondSortOrderIndex];
                     secondSortOrderIndex++;
                     subsortedIndex+=2;
                 }
             }
             for (Int32 j = secondSortOrderIndex; j < secondSortOrderLevel.Length; j++)
             {
-                subsorted[subsortedIndex] = (Item<T>)secondSortOrderLevel[j];
+                subsorted[subsortedIndex] = secondSortOrderLevel[j];
                 subsortedIndex++;
             }
             for (Int32 k = firstSortOrderIndex; k < firstSortOrderLevel.Length; k++)
             {
-                subsorted[subsortedIndex] = (Item<T>)firstSortOrderLevel[k];
+                subsorted[subsortedIndex] = firstSortOrderLevel[k];
                 subsortedIndex++;
             }
         }
