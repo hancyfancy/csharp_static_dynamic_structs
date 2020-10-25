@@ -44,17 +44,6 @@ Simple one dimensional and two dimensional data structures.
 
 # Sample output
 ```
---------------------Items
-10
-20
--1
-1
-894.236
--7.5
-c
-False
-Hello
-
 --------------------Static store
 [{Index 0: 0}, {Index 1: 255}, {Index 2: 1}, {Index 3: 8}]
 
@@ -108,7 +97,7 @@ Item at index 3 = 0
 [{Index 0: }, {Index 1: System.Object}]
 
 --------------------Dynamic sorted store
-[{Index 0: 209}, {Index 1: 297}, {Index 2: 743}, {Index 3: 1597}]
+[{Index 0: 381}, {Index 1: 1437}, {Index 2: 1523}, {Index 3: 1680}]
 
 [{Index 0: Bellow}, {Index 1: Fellow}, {Index 2: Mellow}, {Index 3: Yellow}]
 
