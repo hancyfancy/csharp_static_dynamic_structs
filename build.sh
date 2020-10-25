@@ -27,7 +27,7 @@ else
 fi
 
 echo "Copying dll to MONO_PATH"
-sudo cp ./lib/corestructs.dll "$MONODIR"
+sudo cp ./lib/corestructs.dll "${MONODIR}/corestructs.dll"
 echo "Dll copy complete"
 
 echo "Build complete"
