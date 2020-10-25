@@ -38,29 +38,6 @@ public class StructTests
     {
         Random random = new Random();
 
-        Console.WriteLine("--------------------Items");
-
-        Item<Byte> myByte = new Item<Byte>(10);
-        Console.WriteLine(myByte);
-        Item<Int16> myShort = new Item<Int16>(20);
-        Console.WriteLine(myShort);
-        Item<Int32> myInteger = new Item<Int32>(-1);
-        Console.WriteLine(myInteger);
-        Item<Int64> myLong = new Item<Int64>(1L);
-        Console.WriteLine(myLong);
-        Item<Single> myFloat = new Item<Single>(894.236f);
-        Console.WriteLine(myFloat);
-        Item<Double> myDouble = new Item<Double>(-7.5d);
-        Console.WriteLine(myDouble);
-        Item<Char> myChar = new Item<Char>('c');
-        Console.WriteLine(myChar);
-        Item<Boolean> myBoolean = new Item<Boolean>(false);
-        Console.WriteLine(myBoolean);
-        Item<String> myString = new Item<String>("Hello");
-        Console.WriteLine(myString);
-        Item<Object> myObject = new Item<Object>(null);
-        Console.WriteLine(myObject);
-
         Console.WriteLine("--------------------Static store");
         
         StaticStore<Byte> staticByteStore = new StaticStore<Byte>(4);
