@@ -1,3 +1,3 @@
 #!/bin/sh
 
-mono run.exe
+mono ./bin/corestructstests.exe
