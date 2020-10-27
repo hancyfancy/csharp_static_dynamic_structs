@@ -286,103 +286,49 @@ public abstract class ItemStore<T> : ISortable<T>
         }
         return maxString;
     }
-    private Int32 LinearSearchMin(Item<T>[] array)
-    {
-        String min = "";
-        for (Int32 j = 0; j < array[0].ToString().Length; j++)
-        {
-            min += 'z';
+    private void Merge(Item<T>[] sortedDivision, Int32 l, Int32 m, Int32 r) {
+        Int32 n1 = m - l + 1;
+        Int32 n2 = r - m;
+        Item<T>[] left = new Item<T>[n1];
+        Item<T>[] right = new Item<T>[n2];
+        for (Int32 i = 0; i < n1; ++i) {
+            left[i] = sortedDivision[l + i];
         }
-        Int32 minIndex = -1;
-        for (Int32 i = 0; i < array.Length; i++)
-        {
-            String current = array[i].ToString();
-            if (MinString(current, min).Equals(current))
-            {
-                min = current;
-                minIndex = i;
+        for (Int32 j = 0; j < n2; ++j) {
+            right[j] = sortedDivision[m + 1 + j];
+        }
+        Int32 x = 0, y = 0;
+        Int32 k = l;
+        while (x < n1 && y < n2) {
+            if (MaxString(((Item<T>)left[x]).ToString(),((Item<T>)right[y]).ToString()).Equals(((Item<T>)left[x]).ToString())) {
+                sortedDivision[k] = right[y];
+                y++;
+            } else {
+                sortedDivision[k] = left[x];
+                x++;
             }
+            k++;
         }
-        return minIndex;
+        while (x < n1) {
+            sortedDivision[k] = left[x];
+            x++;
+            k++;
+        }
+        while (y < n2) {
+            sortedDivision[k] = right[y];
+            y++;
+            k++;
+        }
     }
-    private Int32 LinearSearchMax(Item<T>[] array)
+    private Item<T>[] MergeSort(Item<T>[] unsortedDivision, Int32 l, Int32 r)
     {
-        String max = "";
-        for (Int32 j = 0; j < array[0].ToString().Length; j++)
-        {
-            max += '0';
+        if (l < r) {
+            Int32 m = (l + r) / 2;
+            MergeSort(unsortedDivision, l, m);
+            MergeSort(unsortedDivision, m + 1, r);
+            Merge(unsortedDivision, l, m, r);
         }
-        Int32 maxIndex = -1;
-        for (Int32 j = 0; j < array.Length; j++)
-        {
-            String current = array[j].ToString();
-            if (MaxString(current, max).Equals(current))
-            {
-                max = current;
-                maxIndex = j;
-            }
-        }
-        return maxIndex;
-    }
-    private Item<T>[] RemoveSortedDivision(Item<T>[] unsortedDivision, Int32 index)
-    {
-        Int32 newUnsortedDivisionLength = unsortedDivision.Length - 1;
-        Item<T>[] newUnsortedDivision = new Item<T>[newUnsortedDivisionLength];
-        for (Int32 i = 0; i < index; i++)
-        {
-            newUnsortedDivision[i] = unsortedDivision[i];
-        }
-        for (Int32 i = index+1; i <= newUnsortedDivisionLength; i++)
-        {
-            newUnsortedDivision[i-1] = unsortedDivision[i];
-        }
-        return newUnsortedDivision;     
-    }
-    private Item<T>[] MultisortFrame(Item<T>[] unsortedDivision, Int32 numberOfDivisions)
-    {
-        Item<T>[] sortedDivision = new Item<T>[numberOfDivisions];
-        Int32 sortedArrayLength = sortedDivision.Length;
-        Int32 halfSortedArrayLength = sortedArrayLength/2;
-        Int32 minDivisionIndex = 0;
-        Int32 maxDivisionIndex = numberOfDivisions - 1;
-        if (sortedArrayLength == 1)
-        {
-            sortedDivision[0] = unsortedDivision[0];
-        }
-        else if (sortedArrayLength == 2)
-        {
-            Item<T> firstItem = unsortedDivision[0];
-            Item<T> secondItem = unsortedDivision[1];
-            if (MinString(firstItem.ToString(),secondItem.ToString()).Equals(firstItem.ToString()))
-            {
-                sortedDivision[0] = firstItem;
-                sortedDivision[1] = secondItem;
-            }
-            else
-            {
-                sortedDivision[0] = secondItem;
-                sortedDivision[1] = firstItem;
-            }
-        }
-        else
-        {
-            while ((minDivisionIndex < halfSortedArrayLength) && (maxDivisionIndex > sortedArrayLength-1-halfSortedArrayLength))
-            {
-                Int32 indexOfMin = LinearSearchMin(unsortedDivision);
-                sortedDivision[minDivisionIndex] = unsortedDivision[indexOfMin];
-                minDivisionIndex++;
-                unsortedDivision = RemoveSortedDivision(unsortedDivision, indexOfMin);
-                Int32 indexOfMax = LinearSearchMax(unsortedDivision);
-                sortedDivision[maxDivisionIndex] = unsortedDivision[indexOfMax];
-                maxDivisionIndex--;
-                unsortedDivision = RemoveSortedDivision(unsortedDivision, indexOfMax);
-            }
-            if (sortedArrayLength % 2 != 0)
-            {
-                sortedDivision[halfSortedArrayLength] = unsortedDivision[0];
-            }
-        }
-        return sortedDivision;
+        return unsortedDivision;
     }
     private Item<T>[] PopulateUnsortedSubarray(Item<T>[] unsorted, Int32 index, Int32 numberOfDivisions)
     {
@@ -403,7 +349,7 @@ public abstract class ItemStore<T> : ISortable<T>
         for (Int32 i = 0; i < unsortedLength; i+=numberOfDivisions)
         {
             Item<T>[] unsortedSubarray = PopulateUnsortedSubarray(unsorted, i, numberOfDivisions);
-            Item<T>[] sortedSubarray = MultisortFrame(unsortedSubarray, numberOfDivisions);
+            Item<T>[] sortedSubarray = MergeSort(unsortedSubarray, 0, unsortedSubarray.Length-1);
             sortedSubarrays[sortedSubarraysIndex] = sortedSubarray;
             sortedSubarraysIndex++;
         }
@@ -420,13 +366,13 @@ public abstract class ItemStore<T> : ISortable<T>
             {
                 unsortedSortLevel[i] = sortedSubarrays[i][sortLevelIndex];
             }
-            Item<T>[] sortedSortLevel = MultisortFrame(unsortedSortLevel, unsortedSortLevel.Length);
+            Item<T>[] sortedSortLevel = MergeSort(unsortedSortLevel, 0, unsortedSortLevel.Length-1);
             sortedOrderedSubarrays[sortLevelIndex] = sortedSortLevel;
             sortLevelIndex++;
         }
         return sortedOrderedSubarrays;
     }
-    private Item<T>[] Subsort(Item<T>[] firstSortOrderLevel, Item<T>[] secondSortOrderLevel)
+    private Item<T>[] SubMerge(Item<T>[] firstSortOrderLevel, Item<T>[] secondSortOrderLevel)
     {
         Item<T>[] subsorted = null;
         if (!(firstSortOrderLevel.Length > 0))
@@ -484,7 +430,7 @@ public abstract class ItemStore<T> : ISortable<T>
         Item<T>[] sorted = new Item<T>[0];
         for (Int32 i = 0; i < sortOrder.Length; i++)
         {
-            sorted = Subsort(sorted, (Item<T>[])sortOrder[i]);
+            sorted = SubMerge(sorted, (Item<T>[])sortOrder[i]);
         }
         return sorted;
     }

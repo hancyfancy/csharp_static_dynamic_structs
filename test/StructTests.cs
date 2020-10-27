@@ -202,7 +202,7 @@ public class StructTests
         Console.WriteLine("--------------------Dynamic sorted store");
 
         DynamicStore<Int32> dynamicSortedIntegerStore = new DynamicStore<Int32>();
-        for (Int32 i = 0; i < 4; i++)
+        for (Int32 i = 0; i < 52; i++)
         {
             dynamicSortedIntegerStore.Add(random.Next(2000));
         }
