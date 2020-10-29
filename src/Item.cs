@@ -80,11 +80,11 @@ internal class Item<T> : IEquatable<Item<T>>
     }
     public static bool operator <= (Item<T> lhs, Item<T> rhs)
     {
-        return Comparer<T>.Default.Compare(lhs.Content, rhs.Content) <= 0;
+        return ((lhs < rhs) || (lhs == rhs));
     }
     public static bool operator >= (Item<T> lhs, Item<T> rhs)
     {
-        return Comparer<T>.Default.Compare(lhs.Content, rhs.Content) >= 0;
+        return ((lhs > rhs) || (lhs == rhs));
     }
     public override bool Equals(object obj)
     {
@@ -102,7 +102,8 @@ internal class Item<T> : IEquatable<Item<T>>
         }
         return EqualTo(Content, p.Content);
     }
-    private static bool EqualTo<TType>(TType x, TType y) {
+    private static bool EqualTo<TType>(TType x, TType y)
+    {
         bool status;
         dynamic dx = x, dy = y;
         try
