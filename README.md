@@ -75,6 +75,7 @@ Simple one dimensional and two dimensional data structures.
 [{Index 0: 0}, {Index 1: 7}, {Index 2: 0}, {Index 3: 0}]
 
 Item at index 3 = 0
+
 --------------------Dynamic store
 [{Index 0: 0}, {Index 1: 255}, {Index 2: 1}, {Index 3: 8}]
 
