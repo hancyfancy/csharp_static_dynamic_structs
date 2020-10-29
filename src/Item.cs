@@ -30,9 +30,12 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+using Microsoft.CSharp.RuntimeBinder;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 
-internal class Item<T>
+internal class Item<T> : IEquatable<Item<T>>, IComparable<Item<T>>
 {
     private T _content;
     internal Item(T newContent)
@@ -50,20 +53,128 @@ internal class Item<T>
             _content = value;
         }
     }
-    public override bool Equals(object compareContent)
+    public static bool operator == (Item<T> lhs, Item<T> rhs)
     {
-        //return base.Equals(compareContent);
-        string thisContent = ToString();
-        string contentToCompare = Convert.ToString(compareContent);
-        return thisContent.Equals(contentToCompare);
+        if (Object.ReferenceEquals(lhs, null))
+        {
+            if (Object.ReferenceEquals(rhs, null))
+            {
+                return true;
+            }
+
+            return false;
+        }
+        return lhs.Equals(rhs);
+    }
+    public static bool operator != (Item<T> lhs, Item<T> rhs)
+    {
+       return !(lhs == rhs);
+    }
+    public static bool operator < (Item<T> lhs, Item<T> rhs) 
+    {
+        return Compare(lhs, rhs) < 0;
+    }
+    public static bool operator > (Item<T> lhs, Item<T> rhs) 
+    {
+        return Compare(lhs, rhs) > 0;
+    }
+    public static bool operator <= (Item<T> lhs, Item<T> rhs)
+    {
+        return ((lhs < rhs) || (lhs == rhs));
+    }
+    public static bool operator >= (Item<T> lhs, Item<T> rhs)
+    {
+        return ((lhs > rhs) || (lhs == rhs));
+    }
+    public override bool Equals(object obj)
+    {
+        return Equals(obj as Item<T>);
+    }
+    public bool Equals(Item<T> p)
+    {
+        if ((Object.ReferenceEquals(p, null)) || (this.GetType() != p.GetType()))
+        {
+            return false;
+        }
+        else if (Object.ReferenceEquals(this, p))
+        {
+            return true;
+        }
+        return EqualTo(Content, p.Content);
+    }
+    public int CompareTo(Item<T> other)
+    {
+        return Compare(this, other);
+    }
+    private static int Compare(Item<T> x, Item<T> y)
+    {
+        if (x == null && y == null)
+        {
+            return 0;
+        }
+        else if (x == null)
+        {
+            return -1;
+        }
+        else if (y == null)
+        {
+            return 1;
+        }
+        if (EqualTo(x.Content, y.Content))
+        {
+            return 0;
+        }
+        else if (LessThan(x.Content, y.Content))
+        {
+            return -1;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+    private static bool LessThan<TType>(TType x, TType y) {
+        bool status;
+        dynamic dx = x, dy = y;
+        try
+        {   
+            status = (dx < dy);
+        }
+        catch (RuntimeBinderException)
+        {
+            status = (Comparer<T>.Default.Compare(dx, dy) < 0);
+        }
+        return status;
+    }
+    private static bool EqualTo<TType>(TType x, TType y) {
+        bool status;
+        dynamic dx = x, dy = y;
+        try
+        {   
+            status = (dx == dy);
+        }
+        catch (RuntimeBinderException)
+        {
+            status = (Comparer<T>.Default.Compare(dx, dy) == 0);
+        }
+        return status;
+    }
+    private static bool GreaterThan<TType>(TType x, TType y) {
+        bool status;
+        dynamic dx = x, dy = y;
+        try
+        {   
+            status = (dx > dy);
+        }
+        catch (RuntimeBinderException)
+        {
+            status = (Comparer<T>.Default.Compare(dx, dy) > 0);
+        }
+        return status;
     }
     public override int GetHashCode()
     {
         return base.GetHashCode();
-    }
-    public int ToInt()
-    {
-        return Convert.ToInt32(ToString());
     }
     public override string ToString()
     {

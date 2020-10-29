@@ -103,25 +103,6 @@ public abstract class ItemStore<T> : ISortable<T>
     {
         ReplaceAllItems(new Item<T>(toBeReplaced));
     }
-    private Boolean IsNumericString(String stringToBeChecked)
-    {
-        Boolean isNumeric = true;
-        if (stringToBeChecked != null && stringToBeChecked.Length > 0)
-        {
-            foreach (Char c in stringToBeChecked.ToCharArray())
-            {
-                if (!Char.IsDigit(c))
-                {
-                    isNumeric = false;
-                }
-            }
-        }
-        else
-        {
-            isNumeric = false;
-        }
-        return isNumeric;
-    }
     private Boolean IsPrimeNumber(Int32 num)
     {
         Boolean flag = true;
@@ -188,104 +169,6 @@ public abstract class ItemStore<T> : ISortable<T>
         }
         return (requiredPrime == -1 ? 1 : requiredPrime);
     }
-    private String MinString(String firstString, String secondString)
-    {
-        String minString = null;
-        Int32 counter = 0;
-        Int32 maxLength = -1;
-        if (this.IsNumericString(firstString) && this.IsNumericString(secondString))
-        {
-            Int32 first = Int32.Parse(firstString);
-            Int32 second = Int32.Parse(secondString);
-            if (first < second)
-            {
-                minString = firstString;
-            }
-            else if (second <= first)
-            {
-                minString = secondString;
-            }
-        }
-        else
-        {
-            if (firstString.Length >= secondString.Length)
-            {
-                maxLength = firstString.Length;
-            }
-            else if (secondString.Length > firstString.Length)
-            {
-                maxLength = secondString.Length;
-            }
-            for (Int32 i = 0; i < maxLength; i++)
-            {
-                if (((Int32)firstString[i]) < ((Int32)secondString[i]))
-                {
-                    minString = firstString;
-                    break;
-                }
-                else if (((Int32)secondString[i]) <= ((Int32)firstString[i]))
-                {
-                    minString = secondString;
-                    break;
-                }
-                counter++;
-            }
-            if (counter == maxLength-1)
-            {
-                minString = firstString;
-            }
-        }
-        return minString;
-    }
-    private String MaxString(String firstString, String secondString)
-    {
-        String maxString = null;
-        Int32 counter = 0;
-        Int32 maxLength = -1;
-        if (this.IsNumericString(firstString) && this.IsNumericString(secondString))
-        {
-            Int32 first = Int32.Parse(firstString);
-            Int32 second = Int32.Parse(secondString);
-            if (first > second)
-            {
-                maxString = firstString;
-            }
-            else if (second >= first)
-            {
-                maxString = secondString;
-            }
-        }
-        else
-        {
-            if (firstString.Length >= secondString.Length)
-            {
-                maxLength = firstString.Length;
-            }
-            else if (secondString.Length > firstString.Length)
-            {
-                maxLength = secondString.Length;
-            }
-            for (Int32 i = 0; i < maxLength; i++)
-            {
-                if (((Int32)firstString[i]) > ((Int32)secondString[i]))
-                {
-                    maxString = firstString;
-                    break;
-                }
-                else if (((Int32)secondString[i]) >= ((Int32)firstString[i]))
-                {
-                    maxString = secondString;
-                    break;
-                }
-                counter++;
-            }
-            if (counter == maxLength-1)
-            {
-                maxString = firstString;
-            }
-        }
-        return maxString;
-    }
     private void Merge(Item<T>[] sortedDivision, Int32 l, Int32 m, Int32 r) {
         Int32 n1 = m - l + 1;
         Int32 n2 = r - m;
@@ -300,7 +183,7 @@ public abstract class ItemStore<T> : ISortable<T>
         Int32 x = 0, y = 0;
         Int32 k = l;
         while (x < n1 && y < n2) {
-            if (MaxString(((Item<T>)left[x]).ToString(),((Item<T>)right[y]).ToString()).Equals(((Item<T>)left[x]).ToString())) {
+            if (left[x] > right[y]) {
                 sortedDivision[k] = right[y];
                 y++;
             } else {
@@ -391,13 +274,13 @@ public abstract class ItemStore<T> : ISortable<T>
             Int32 secondSortOrderIndex = 0;
             while ((firstSortOrderIndex < firstSortOrderLevel.Length) && (secondSortOrderIndex < secondSortOrderLevel.Length))
             {
-                if (MinString((firstSortOrderLevel[firstSortOrderIndex]).ToString(),(secondSortOrderLevel[secondSortOrderIndex]).ToString()).Equals((firstSortOrderLevel[firstSortOrderIndex]).ToString()))
+                if (firstSortOrderLevel[firstSortOrderIndex] < secondSortOrderLevel[secondSortOrderIndex])
                 {
                     subsorted[subsortedIndex] = firstSortOrderLevel[firstSortOrderIndex];
                     firstSortOrderIndex++;
                     subsortedIndex++;
                 }
-                else if (MaxString((firstSortOrderLevel[firstSortOrderIndex]).ToString(),(secondSortOrderLevel[secondSortOrderIndex]).ToString()).Equals((firstSortOrderLevel[firstSortOrderIndex]).ToString()))
+                else if (firstSortOrderLevel[firstSortOrderIndex] > secondSortOrderLevel[secondSortOrderIndex])
                 {
                     subsorted[subsortedIndex] = secondSortOrderLevel[secondSortOrderIndex];
                     secondSortOrderIndex++;

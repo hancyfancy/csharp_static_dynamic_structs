@@ -34,7 +34,7 @@ using System;
 
 public class StructTests
 {
-	public static void Main(string[] args)
+	public static void Main()
     {
         Random random = new Random();
 
