@@ -35,7 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-internal class Item<T> : IEquatable<Item<T>>, IComparable<Item<T>>
+internal class Item<T> : IEquatable<Item<T>>
 {
     private T _content;
     internal Item(T newContent)
@@ -70,21 +70,21 @@ internal class Item<T> : IEquatable<Item<T>>, IComparable<Item<T>>
     {
        return !(lhs == rhs);
     }
-    public static bool operator < (Item<T> lhs, Item<T> rhs) 
+    public static bool operator < (Item<T> lhs, Item<T> rhs)
     {
-        return Compare(lhs, rhs) < 0;
+        return Comparer<T>.Default.Compare(lhs.Content, rhs.Content) < 0;
     }
-    public static bool operator > (Item<T> lhs, Item<T> rhs) 
+    public static bool operator > (Item<T> lhs, Item<T> rhs)
     {
-        return Compare(lhs, rhs) > 0;
+        return Comparer<T>.Default.Compare(lhs.Content, rhs.Content) > 0;
     }
     public static bool operator <= (Item<T> lhs, Item<T> rhs)
     {
-        return ((lhs < rhs) || (lhs == rhs));
+        return Comparer<T>.Default.Compare(lhs.Content, rhs.Content) <= 0;
     }
     public static bool operator >= (Item<T> lhs, Item<T> rhs)
     {
-        return ((lhs > rhs) || (lhs == rhs));
+        return Comparer<T>.Default.Compare(lhs.Content, rhs.Content) >= 0;
     }
     public override bool Equals(object obj)
     {
@@ -102,50 +102,6 @@ internal class Item<T> : IEquatable<Item<T>>, IComparable<Item<T>>
         }
         return EqualTo(Content, p.Content);
     }
-    public int CompareTo(Item<T> other)
-    {
-        return Compare(this, other);
-    }
-    private static int Compare(Item<T> x, Item<T> y)
-    {
-        if (x == null && y == null)
-        {
-            return 0;
-        }
-        else if (x == null)
-        {
-            return -1;
-        }
-        else if (y == null)
-        {
-            return 1;
-        }
-        if (EqualTo(x.Content, y.Content))
-        {
-            return 0;
-        }
-        else if (LessThan(x.Content, y.Content))
-        {
-            return -1;
-        }
-        else
-        {
-            return 1;
-        }
-    }
-    private static bool LessThan<TType>(TType x, TType y) {
-        bool status;
-        dynamic dx = x, dy = y;
-        try
-        {   
-            status = (dx < dy);
-        }
-        catch (RuntimeBinderException)
-        {
-            status = (Comparer<T>.Default.Compare(dx, dy) < 0);
-        }
-        return status;
-    }
     private static bool EqualTo<TType>(TType x, TType y) {
         bool status;
         dynamic dx = x, dy = y;
@@ -156,19 +112,6 @@ internal class Item<T> : IEquatable<Item<T>>, IComparable<Item<T>>
         catch (RuntimeBinderException)
         {
             status = (Comparer<T>.Default.Compare(dx, dy) == 0);
-        }
-        return status;
-    }
-    private static bool GreaterThan<TType>(TType x, TType y) {
-        bool status;
-        dynamic dx = x, dy = y;
-        try
-        {   
-            status = (dx > dy);
-        }
-        catch (RuntimeBinderException)
-        {
-            status = (Comparer<T>.Default.Compare(dx, dy) > 0);
         }
         return status;
     }
