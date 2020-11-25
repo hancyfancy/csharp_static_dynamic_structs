@@ -1,23 +1,17 @@
 /*
 BSD 3-Clause License
-
 Copyright (c) 2020, hancyfancy
 All rights reserved.
-
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
-
 1. Redistributions of source code must retain the above copyright notice, this
    list of conditions and the following disclaimer.
-
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
    and/or other materials provided with the distribution.
-
 3. Neither the name of the copyright holder nor the names of its
    contributors may be used to endorse or promote products derived from
    this software without specific prior written permission.
-
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -32,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
 using System.Reflection;
+using System.Threading;
 
 public abstract class ItemStore<T> : ISortable<T>
 {
@@ -103,72 +98,6 @@ public abstract class ItemStore<T> : ISortable<T>
     {
         ReplaceAllItems(new Item<T>(toBeReplaced));
     }
-    private Boolean IsPrimeNumber(Int32 num)
-    {
-        Boolean flag = true;
-        for(Int32 i = 2; i <= num/2; ++i)
-        {
-            if(num % i == 0)
-            {
-                flag = false;
-                break;
-            }
-        }
-        return flag;
-    }
-    private Int32[] GeneratePrimeNumbers(Int32 n)
-    {
-        Int32[] primeNumbers = null;
-        if (n <= 1)
-        {
-            primeNumbers = new Int32[]{1};
-        }
-        else if (n == 2)
-        {
-            primeNumbers = new Int32[]{2};
-        }
-        else
-        {
-            String primeNumbersAsString = "";
-            for (Int32 i = 2; i <= n; i++)
-            {
-                if (i <= n)
-                {	 		  
-                    if (IsPrimeNumber(i))
-                    {
-                        primeNumbersAsString = primeNumbersAsString + Convert.ToString(i) + ",";
-                    }
-                }
-            }
-            String[] primeNumbersSplit = primeNumbersAsString.Split(",");
-            Int32 primeNumbersSplitLength = primeNumbersSplit.Length;
-            primeNumbers = new Int32[primeNumbersSplitLength];
-            for (Int32 j = 0; j < primeNumbersSplitLength-1; j++)
-            {
-                primeNumbers[j] = Int32.Parse(primeNumbersSplit[j]);
-            }
-        }
-        return primeNumbers;
-    }
-    private Int32 CalculatePrimeDivisions(Item<T>[] unsortedItems)
-    {
-        Int32 unsortedItemsLength = unsortedItems.Length;
-        Int32[] primeNumbers = GeneratePrimeNumbers(unsortedItemsLength/2);
-        Int32 requiredPrime = -1;
-        for (Int32 i = primeNumbers.Length-1; i > -1; i--)
-        {
-            Int32 currentPrime = primeNumbers[i];
-            if (currentPrime > 0)
-            {
-                if (unsortedItemsLength % currentPrime == 0)
-                {
-                    requiredPrime = currentPrime;
-                    break;
-                }
-            }
-        }
-        return (requiredPrime == -1 ? 1 : requiredPrime);
-    }
     private void Merge(Item<T>[] sortedDivision, Int32 l, Int32 m, Int32 r) {
         Int32 n1 = m - l + 1;
         Int32 n2 = r - m;
@@ -213,131 +142,10 @@ public abstract class ItemStore<T> : ISortable<T>
         }
         return unsortedDivision;
     }
-    private Item<T>[] PopulateUnsortedSubarray(Item<T>[] unsorted, Int32 index, Int32 numberOfDivisions)
-    {
-        Item<T>[] unsortedSubarray = new Item<T>[numberOfDivisions];
-        Int32 unsortedSubarrayIndex = 0;
-        for (Int32 i = index; i < numberOfDivisions+index; i++)
-        {
-            unsortedSubarray[unsortedSubarrayIndex] = unsorted[i];
-            unsortedSubarrayIndex++;
-        }
-        return unsortedSubarray;
-    }
-    private Item<T>[][] GetSortedSubarrays(Item<T>[] unsorted, Int32 numberOfDivisions, Int32 divisor)
-    {
-        Int32 unsortedLength = unsorted.Length;
-        Item<T>[][] sortedSubarrays = new Item<T>[divisor][];
-        Int32 sortedSubarraysIndex = 0;
-        for (Int32 i = 0; i < unsortedLength; i+=numberOfDivisions)
-        {
-            Item<T>[] unsortedSubarray = PopulateUnsortedSubarray(unsorted, i, numberOfDivisions);
-            Item<T>[] sortedSubarray = MergeSort(unsortedSubarray, 0, unsortedSubarray.Length-1);
-            sortedSubarrays[sortedSubarraysIndex] = sortedSubarray;
-            sortedSubarraysIndex++;
-        }
-        return sortedSubarrays;
-    }
-    private Item<T>[][] GetSortOrder(Item<T>[][] sortedSubarrays, Int32 numberOfDivisions, Int32 divisor)
-    {
-        Item<T>[][] sortedOrderedSubarrays = new Item<T>[numberOfDivisions][];
-        Int32 sortLevelIndex = 0;
-        while (sortLevelIndex < numberOfDivisions)
-        {
-            Item<T>[] unsortedSortLevel = new Item<T>[divisor];
-            for (Int32 i = 0; i < unsortedSortLevel.Length; i++)
-            {
-                unsortedSortLevel[i] = sortedSubarrays[i][sortLevelIndex];
-            }
-            Item<T>[] sortedSortLevel = MergeSort(unsortedSortLevel, 0, unsortedSortLevel.Length-1);
-            sortedOrderedSubarrays[sortLevelIndex] = sortedSortLevel;
-            sortLevelIndex++;
-        }
-        return sortedOrderedSubarrays;
-    }
-    private Item<T>[] SubMerge(Item<T>[] firstSortOrderLevel, Item<T>[] secondSortOrderLevel)
-    {
-        Item<T>[] subsorted = null;
-        if (!(firstSortOrderLevel.Length > 0))
-        {
-            subsorted = (Item<T>[])secondSortOrderLevel;
-        }
-        else if (!(secondSortOrderLevel.Length > 0))
-        {
-            subsorted = (Item<T>[])firstSortOrderLevel;
-        }
-        else
-        {
-            subsorted = new Item<T>[firstSortOrderLevel.Length+secondSortOrderLevel.Length];
-            Int32 subsortedIndex = 0;
-            Int32 firstSortOrderIndex = 0;
-            Int32 secondSortOrderIndex = 0;
-            while ((firstSortOrderIndex < firstSortOrderLevel.Length) && (secondSortOrderIndex < secondSortOrderLevel.Length))
-            {
-                if (firstSortOrderLevel[firstSortOrderIndex] < secondSortOrderLevel[secondSortOrderIndex])
-                {
-                    subsorted[subsortedIndex] = firstSortOrderLevel[firstSortOrderIndex];
-                    firstSortOrderIndex++;
-                    subsortedIndex++;
-                }
-                else if (firstSortOrderLevel[firstSortOrderIndex] > secondSortOrderLevel[secondSortOrderIndex])
-                {
-                    subsorted[subsortedIndex] = secondSortOrderLevel[secondSortOrderIndex];
-                    secondSortOrderIndex++;
-                    subsortedIndex++;
-                }
-                else
-                {
-                    subsorted[subsortedIndex] = firstSortOrderLevel[firstSortOrderIndex];
-                    firstSortOrderIndex++;
-                    subsorted[subsortedIndex+1] = secondSortOrderLevel[secondSortOrderIndex];
-                    secondSortOrderIndex++;
-                    subsortedIndex+=2;
-                }
-            }
-            for (Int32 j = secondSortOrderIndex; j < secondSortOrderLevel.Length; j++)
-            {
-                subsorted[subsortedIndex] = secondSortOrderLevel[j];
-                subsortedIndex++;
-            }
-            for (Int32 k = firstSortOrderIndex; k < firstSortOrderLevel.Length; k++)
-            {
-                subsorted[subsortedIndex] = firstSortOrderLevel[k];
-                subsortedIndex++;
-            }
-        }
-        return subsorted;
-    }
-    private Item<T>[] SortTruncate(Item<T>[][] sortOrder, Int32 numberOfDivisions, Int32 divisor)
-    {
-        Item<T>[] sorted = new Item<T>[0];
-        for (Int32 i = 0; i < sortOrder.Length; i++)
-        {
-            sorted = SubMerge(sorted, (Item<T>[])sortOrder[i]);
-        }
-        return sorted;
-    }
-    protected void Sort(Boolean createSortOrder)
-    {
-        Item<T>[] unsortedItems = Items;
-        Int32 primeDivisions = this.CalculatePrimeDivisions(unsortedItems);
-        Int32 divisor = unsortedItems.Length/primeDivisions;
-        Item<T>[][] sortedSubarrays = this.GetSortedSubarrays(unsortedItems, primeDivisions, divisor);
-        Item<T>[] allSorted = null;
-        if (createSortOrder)
-        {
-            Item<T>[][] sortOrder = this.GetSortOrder(sortedSubarrays, primeDivisions, divisor);
-            allSorted = this.SortTruncate(sortOrder, primeDivisions, divisor);
-        }
-        else
-        {
-            allSorted = this.SortTruncate(sortedSubarrays, primeDivisions, divisor);
-        }
-        Items = allSorted;
-    }
     public void Sort()
     {
-        Sort(false);
+        Item<T>[] unsortedItems = Items;
+        Items = MergeSort(Items, 0, Items.Length-1);
     }
     public override String ToString()
     {
