@@ -25,96 +25,57 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 using System;
-using System.Reflection;
 
-public abstract class ItemStore<T>
+public class OneDimensionSorter<T> : IOneDimensionSortable<T>
 {
-    private Int32 _currentIndex;
-    private Item<T>[] _items;
-    public ItemStore()
+    private ItemStore<T> _store;
+    private ItemSingularSorter<T> _singularSorter;
+    private ItemParallelSorter<T> _parallelSorter;
+    public OneDimensionSorter(ItemStore<T> newStore)
     {
-        CurrentIndex = 0;
+        Store = newStore;
+        SingularSorter = new ItemSingularSorter<T>(Store.Items);
+        ParallelSorter = new ItemParallelSorter<T>(Store.Items);
     }
-    protected Int32 CurrentIndex
+    protected ItemStore<T> Store
     {
         get
         {
-            return _currentIndex;
+            return _store;
         }
         set
         {
-            _currentIndex = value;
+            _store = value;
         }
     }
-    internal Item<T>[] Items
+    private ItemSingularSorter<T> SingularSorter
     {
         get
         {
-            return _items;
+            return _singularSorter;
         }
         set
         {
-            _items = value;
+            _singularSorter = value;
         }
     }
-    public virtual Int32 Length
+    private ItemParallelSorter<T> ParallelSorter
     {
         get
         {
-            return Items.Length;
+            return _parallelSorter;
         }
         set
         {
-            
+            _parallelSorter = value;
         }
     }
-    internal Item<T> GetItem(Int32 index)
+    public void Sort()
     {
-        return Items[index];
+        Store.Items = SingularSorter.MergeSort(0, Store.Length-1);
     }
-    public T Get(Int32 index)
+    public void ParallelSort()
     {
-        return GetItem(index).Content;
-    }
-    internal void ReplaceAllItems(Item<T> newItem)
-    {
-        Item<T>[] items = Items;
-        for (Int32 i = 0; i < items.Length; i++)
-        {
-            if (items[i] != null)
-            {
-                items[i] = newItem;
-            }
-            else
-            {
-                MethodBase m = MethodBase.GetCurrentMethod();
-                throw new InvalidOperationException(m.ReflectedType.Name + "." + m.Name + ": Null items cannot be replaced, try adding or inserting instead.");
-            }
-        }
-        Items = items;
-    }
-    public void ReplaceAll(T toBeReplaced)
-    {
-        ReplaceAllItems(new Item<T>(toBeReplaced));
-    }
-    public override String ToString()
-    {
-        String output = "";
-        Item<T>[] items = Items;
-        output = output + "[";
-        for (Int32 i = 0; i < items.Length; i++)
-        {
-            output = output + "{Index " + Convert.ToString(i) + ": " + Convert.ToString(items[i]);
-            if (i < items.Length - 1)
-            {
-                output = output + "}, ";
-            }
-            else
-            {
-                output = output + "}";
-            }
-        }
-        output = output + "]\n";
-        return output;
+        Store.Items = ParallelSorter.MergeSort(0, Store.Length-1);
     }
 }

@@ -200,7 +200,8 @@ public class StructTests
         {
             dynamicSortedIntegerStore.Add(random.Next(2000));
         }
-        dynamicSortedIntegerStore.Sort();
+        OneDimensionSorter<Int32> dynamicSortedIntegerStoreSingularSorter = new OneDimensionSorter<Int32>(dynamicSortedIntegerStore);
+        dynamicSortedIntegerStoreSingularSorter.Sort();
         Console.WriteLine(dynamicSortedIntegerStore);
 
         DynamicStore<String> dynamicSortedStringStore = new DynamicStore<String>();
@@ -208,7 +209,8 @@ public class StructTests
         dynamicSortedStringStore.Add("Mellow");
         dynamicSortedStringStore.Add("Yellow");
         dynamicSortedStringStore.Add("Bellow");
-        dynamicSortedStringStore.Sort();
+        OneDimensionSorter<String> dynamicSortedStringStoreSingularSorter = new OneDimensionSorter<String>(dynamicSortedStringStore);
+        dynamicSortedStringStoreSingularSorter.Sort();
         Console.WriteLine(dynamicSortedStringStore);
 
         Console.WriteLine("--------------------Dynamic store replace item");
@@ -277,7 +279,8 @@ public class StructTests
         dynamicSortedIntegerKeyValueStore.Add(7, "Shulz");
         dynamicSortedIntegerKeyValueStore.Add(17, "Shulz");
         dynamicSortedIntegerKeyValueStore.Add(3, "Jems");
-        dynamicSortedIntegerKeyValueStore.Sort();
+        TwoDimensionSorter<Int32,String> dynamicSortedIntegerKeyValueStoreSingularSorter = new TwoDimensionSorter<Int32,String>(dynamicSortedIntegerKeyValueStore);
+        dynamicSortedIntegerKeyValueStoreSingularSorter.Sort(TwoDimensionConstants.KEY);
         Console.WriteLine(dynamicSortedIntegerKeyValueStore);
         Console.WriteLine("7 -> " + Convert.ToString(dynamicSortedIntegerKeyValueStore.GetValue(7)));
         //Console.WriteLine("Bicker <- " + Convert.ToString(dynamicSortedIntegerKeyValueStore.GetKey("Bicker")));
@@ -289,7 +292,8 @@ public class StructTests
         dynamicSortedStringKeyValueStore.Add("Bicker", 9);
         dynamicSortedStringKeyValueStore.Add("Shulz", 7);
         dynamicSortedStringKeyValueStore.Add("Jems", 3);
-        dynamicSortedStringKeyValueStore.Sort();
+        TwoDimensionSorter<String,Int32> dynamicSortedStringKeyValueStoreSingularSorter = new TwoDimensionSorter<String,Int32>(dynamicSortedStringKeyValueStore);
+        dynamicSortedStringKeyValueStoreSingularSorter.Sort(TwoDimensionConstants.VALUE);
         Console.WriteLine(dynamicSortedStringKeyValueStore);
         Console.WriteLine("Yukon -> " + Convert.ToString(dynamicSortedStringKeyValueStore.GetValue("Yukon")));
         Console.WriteLine("3 <- " + Convert.ToString(dynamicSortedStringKeyValueStore.GetKey(3)));

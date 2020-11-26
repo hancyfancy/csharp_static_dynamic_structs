@@ -33,7 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using System;
 using System.Reflection;
 
-public class DynamicMap<K,V> : ISortable<K>, ITwoDimensionIterable<K,V>, ITwoDimensionStorable<K,V>
+public class DynamicMap<K,V> : ITwoDimensionIterable<K,V>, ITwoDimensionStorable<K,V>
 {
     private DynamicUniqueStore<K> _keys;
     private DynamicStore<V> _values;
@@ -42,7 +42,7 @@ public class DynamicMap<K,V> : ISortable<K>, ITwoDimensionIterable<K,V>, ITwoDim
         Keys = new DynamicUniqueStore<K>();
         Values = new DynamicStore<V>();
     }
-    protected DynamicUniqueStore<K> Keys
+    internal DynamicUniqueStore<K> Keys
     {
         get
         {
@@ -53,7 +53,7 @@ public class DynamicMap<K,V> : ISortable<K>, ITwoDimensionIterable<K,V>, ITwoDim
             _keys = value;
         }
     }
-    protected DynamicStore<V> Values
+    internal DynamicStore<V> Values
     {
         get
         {
@@ -141,28 +141,6 @@ public class DynamicMap<K,V> : ISortable<K>, ITwoDimensionIterable<K,V>, ITwoDim
                 }
             }
         }
-    }
-    public void Sort()
-    {
-        DynamicUniqueStore<K> originalKeys = new DynamicUniqueStore<K>();
-        DynamicUniqueStore<K> keys = Keys;
-        for (Int32 i = 0; i < Length; i++) {
-            originalKeys.Add(keys.Get(i));
-        }
-        keys.Sort();
-        Int32[] sortedIndices = new Int32[Length];
-        for (Int32 i = 0; i < Length; i++)
-        {
-            sortedIndices[i] = originalKeys.GetIndex(keys.Get(i));
-        }
-        DynamicStore<V> sortedValues = new DynamicStore<V>();
-        DynamicStore<V> values = Values;
-        for (Int32 j = 0; j < Length; j++)
-        {
-            sortedValues.Add(values.Get(sortedIndices[j]));
-        }
-        Keys = keys;
-        Values = sortedValues;
     }
     public override String ToString()
     {
