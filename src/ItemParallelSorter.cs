@@ -31,9 +31,11 @@ using System.Threading.Tasks;
 internal class ItemParallelSorter<T> : ItemMerger<T>
 {
     private Item<T>[] _array;
+    private volatile Int32 _threadCount;
     internal ItemParallelSorter(Item<T>[] newArray) : base(newArray)
     {
         Array = newArray;
+        ThreadCount = 0;
     }
     protected Item<T>[] Array
     {
@@ -46,17 +48,28 @@ internal class ItemParallelSorter<T> : ItemMerger<T>
             _array = value;
         }
     }
+    private Int32 ThreadCount
+    {
+        get
+        {
+            return _threadCount;
+        }
+        set
+        {
+            _threadCount = value;
+        }
+    }
     internal Item<T>[] MergeSort(Int32 l, Int32 r)
     {
         Item<T>[] unsortedDivision = Array;
         if (l < r)
         {
             Int32 m = (l + r) / 2;
-            if (ConcurrencyVariables.THREADCOUNT < ConcurrencyVariables.CONCLIMIT)
+            if (ThreadCount < ConcurrencyConstants.CONCLIMIT)
             {
-                Interlocked.Increment(ref ConcurrencyVariables.THREADCOUNT);
+                Interlocked.Increment(ref _threadCount);
                 Parallel.Invoke(() => MergeSort(l, m),() => MergeSort(m + 1, r));
-                Interlocked.Decrement(ref ConcurrencyVariables.THREADCOUNT);
+                Interlocked.Decrement(ref _threadCount);
             }
             else
             {

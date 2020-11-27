@@ -26,8 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
 
-internal static class ConcurrencyVariables
+internal static class ConcurrencyConstants
 {
     internal static readonly Int32 CONCLIMIT = Environment.ProcessorCount * 2;
-    internal static volatile Int32 THREADCOUNT = 0;
 }
