@@ -26,34 +26,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
 
-internal class ItemSingularSorter<T> : ItemMerger<T>
+public static class ConcurrencyVariables
 {
-    private Item<T>[] _array;
-    internal ItemSingularSorter(Item<T>[] newArray) : base(newArray)
-    {
-        Array = newArray;
-    }
-    protected Item<T>[] Array
-    {
-        get
-        {
-            return _array;
-        }
-        set
-        {
-            _array = value;
-        }
-    }
-    internal Item<T>[] MergeSort(Int32 l, Int32 r)
-    {
-        Item<T>[] unsortedDivision = Array;
-        if (l < r)
-        {
-            Int32 m = (l + r) / 2;
-            MergeSort(l, m);
-            MergeSort(m + 1, r);
-            base.Merge(l, m, r);
-        }
-        return (Item<T>[])unsortedDivision;
-    }
+    public static readonly Int32 CONCLIMIT = Environment.ProcessorCount * 2;
+    public static volatile Int32 THREADCOUNT = 0;
 }

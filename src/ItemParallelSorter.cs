@@ -25,6 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 internal class ItemParallelSorter<T> : ItemMerger<T>
@@ -48,9 +49,20 @@ internal class ItemParallelSorter<T> : ItemMerger<T>
     internal Item<T>[] MergeSort(Int32 l, Int32 r)
     {
         Item<T>[] unsortedDivision = Array;
-        if (l < r) {
+        if (l < r)
+        {
             Int32 m = (l + r) / 2;
-            Parallel.Invoke(() => MergeSort(l, m),() => MergeSort(m + 1, r));
+            if (ConcurrencyVariables.THREADCOUNT < ConcurrencyVariables.CONCLIMIT)
+            {
+                Interlocked.Increment(ref ConcurrencyVariables.THREADCOUNT);
+                Parallel.Invoke(() => MergeSort(l, m),() => MergeSort(m + 1, r));
+                Interlocked.Decrement(ref ConcurrencyVariables.THREADCOUNT);
+            }
+            else
+            {
+                MergeSort(l, m);
+                MergeSort(m + 1, r);
+            }
             base.Merge(l, m, r);
         }
         return (Item<T>[])unsortedDivision;
