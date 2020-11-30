@@ -1,17 +1,23 @@
 /*
 BSD 3-Clause License
+
 Copyright (c) 2020, hancyfancy
 All rights reserved.
+
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
+
 1. Redistributions of source code must retain the above copyright notice, this
    list of conditions and the following disclaimer.
+
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
    and/or other materials provided with the distribution.
+
 3. Neither the name of the copyright holder nor the names of its
    contributors may be used to endorse or promote products derived from
    this software without specific prior written permission.
+
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -25,11 +31,15 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 using System;
+using System.Diagnostics;
 
 public class StructTests
 {
 	public static void Main()
     {
+        Stopwatch sw0 = new Stopwatch();
+        Stopwatch sw1 = new Stopwatch();
+        Stopwatch sw2 = new Stopwatch();
         Random random = new Random();
 
         Console.WriteLine("--------------------Static store");
@@ -195,14 +205,34 @@ public class StructTests
 
         Console.WriteLine("--------------------Dynamic sorted store");
 
-        DynamicStore<Int32> dynamicSortedIntegerStore = new DynamicStore<Int32>();
-        for (Int32 i = 0; i < 52; i++)
+        Int32 n = 100;
+        Console.WriteLine("size of array = " + Convert.ToString(n) + "\n");
+        Int32[] intArr = new Int32[n];
+        DynamicStore<Int32> dynamicSortedIntegerStoreOne = new DynamicStore<Int32>();
+        DynamicStore<Int32> dynamicSortedIntegerStoreTwo = new DynamicStore<Int32>();
+        for (Int32 i = 0; i < n; i++)
         {
-            dynamicSortedIntegerStore.Add(random.Next(2000));
+            Int32 rand = random.Next(1000000);
+            dynamicSortedIntegerStoreOne.Add(rand);
+            dynamicSortedIntegerStoreTwo.Add(rand);
+            intArr[i] = rand;
         }
-        OneDimensionSorter<Int32> dynamicSortedIntegerStoreSingularSorter = new OneDimensionSorter<Int32>(dynamicSortedIntegerStore);
-        dynamicSortedIntegerStoreSingularSorter.Sort();
-        Console.WriteLine(dynamicSortedIntegerStore);
+        //Console.WriteLine(dynamicSortedIntegerStoreOne);
+        sw0.Start();
+        Array.Sort(intArr);
+        sw0.Stop();
+        Console.WriteLine("Array sort elapsed time: " + Convert.ToString(sw0.ElapsedMilliseconds) + " ms\n");
+        OneDimensionSorter<Int32> dynamicSortedIntegerStoreOneSingularSorter = new OneDimensionSorter<Int32>(dynamicSortedIntegerStoreOne);
+        sw1.Start();
+        dynamicSortedIntegerStoreOneSingularSorter.Sort();
+        sw1.Stop();
+        Console.WriteLine("Singular merge sort elapsed time: " + Convert.ToString(sw1.ElapsedMilliseconds) + " ms\n");
+        OneDimensionSorter<Int32> dynamicSortedIntegerStoreTwoParallelSorter = new OneDimensionSorter<Int32>(dynamicSortedIntegerStoreTwo);
+        sw2.Start();
+        dynamicSortedIntegerStoreTwoParallelSorter.ParallelSort();
+        sw2.Stop();
+        Console.WriteLine("Parallel merge sort elapsed time: " + Convert.ToString(sw2.ElapsedMilliseconds) + " ms\n");
+        //Console.WriteLine(dynamicSortedIntegerStoreTwo);
 
         DynamicStore<String> dynamicSortedStringStore = new DynamicStore<String>();
         dynamicSortedStringStore.Add("Fellow");
@@ -287,16 +317,24 @@ public class StructTests
         Console.WriteLine("Blitzer <- " + Convert.ToString(dynamicSortedIntegerKeyValueStore.GetKey("Blitzer")));
         Console.WriteLine();
 
-        DynamicMap<String,Int32> dynamicSortedStringKeyValueStore = new DynamicMap<String,Int32>();
-        dynamicSortedStringKeyValueStore.Add("Yukon", 8);
-        dynamicSortedStringKeyValueStore.Add("Bicker", 9);
-        dynamicSortedStringKeyValueStore.Add("Shulz", 7);
-        dynamicSortedStringKeyValueStore.Add("Jems", 3);
-        TwoDimensionSorter<String,Int32> dynamicSortedStringKeyValueStoreSingularSorter = new TwoDimensionSorter<String,Int32>(dynamicSortedStringKeyValueStore);
-        dynamicSortedStringKeyValueStoreSingularSorter.Sort(TwoDimensionConstants.VALUE);
-        Console.WriteLine(dynamicSortedStringKeyValueStore);
-        Console.WriteLine("Yukon -> " + Convert.ToString(dynamicSortedStringKeyValueStore.GetValue("Yukon")));
-        Console.WriteLine("3 <- " + Convert.ToString(dynamicSortedStringKeyValueStore.GetKey(3)));
+        DynamicMap<String,Int32> dynamicSortedStringKeyValueStoreOne = new DynamicMap<String,Int32>();
+        DynamicMap<String,Int32> dynamicSortedStringKeyValueStoreTwo = new DynamicMap<String,Int32>();
+        dynamicSortedStringKeyValueStoreOne.Add("Yukon", 8);
+        dynamicSortedStringKeyValueStoreOne.Add("Bicker", 9);
+        dynamicSortedStringKeyValueStoreOne.Add("Shulz", 7);
+        dynamicSortedStringKeyValueStoreOne.Add("Jems", 3);
+        dynamicSortedStringKeyValueStoreTwo.Add("Yukon", 8);
+        dynamicSortedStringKeyValueStoreTwo.Add("Bicker", 9);
+        dynamicSortedStringKeyValueStoreTwo.Add("Shulz", 7);
+        dynamicSortedStringKeyValueStoreTwo.Add("Jems", 3);
+        TwoDimensionSorter<String,Int32> dynamicSortedStringKeyValueStoreOneSingularSorter = new TwoDimensionSorter<String,Int32>(dynamicSortedStringKeyValueStoreOne);
+        dynamicSortedStringKeyValueStoreOneSingularSorter.Sort(TwoDimensionConstants.VALUE);
+        Console.WriteLine(dynamicSortedStringKeyValueStoreOne);
+        TwoDimensionSorter<String,Int32> dynamicSortedStringKeyValueStoreTwoParallelSorter = new TwoDimensionSorter<String,Int32>(dynamicSortedStringKeyValueStoreTwo);
+        dynamicSortedStringKeyValueStoreTwoParallelSorter.ParallelSort(TwoDimensionConstants.VALUE);
+        Console.WriteLine(dynamicSortedStringKeyValueStoreTwo);
+        Console.WriteLine("Yukon -> " + Convert.ToString(dynamicSortedStringKeyValueStoreOne.GetValue("Yukon")));
+        Console.WriteLine("3 <- " + Convert.ToString(dynamicSortedStringKeyValueStoreOne.GetKey(3)));
         Console.WriteLine();
     }
 }

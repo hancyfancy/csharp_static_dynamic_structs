@@ -1,7 +1,8 @@
 #!/bin/sh
 
 mcs /target:library /out:./lib/corestructs.dll ./src/*.cs
-mcs -r:./lib/corestructs.dll /out:./bin/corestructstests.exe ./test/*.cs
+mcs -r:./lib/corestructs.dll /out:./bin/corestructstests.exe ./test/StructTests.cs
+mcs -r:./lib/corestructs.dll /out:./bin/vehicletests.exe ./test/StructVehicleExampleTests.cs
 
 BASHRC="/home/${USER}/.bashrc"
 MONODIR="/usr/lib/mono-custom-libs/"
