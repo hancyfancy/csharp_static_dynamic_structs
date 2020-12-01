@@ -36,7 +36,7 @@ internal abstract class Vehicle : IComparable<Vehicle>
 {
     private String _registration;
     private Int32 _numberOfWheels;
-    private VehicleConstants _sortBy;
+    private static VehicleConstants _sortBy;
     protected Vehicle(String newRegistration, Int32 newNumberOfWheels)
     {
         Registration = newRegistration;
@@ -64,7 +64,7 @@ internal abstract class Vehicle : IComparable<Vehicle>
             _numberOfWheels = value;
         }
     }
-    internal VehicleConstants SortBy
+    internal static VehicleConstants SortBy
     {
         get
         {
@@ -191,18 +191,12 @@ internal class VehicleSorter<T> : OneDimensionSorter<T> where T : Vehicle
     }
     public void Sort(VehicleConstants sortBy)
     {
-        for (Int32 i = 0; i < Store.Length; i++)
-        {
-            ((Vehicle)(Object)Store.Get(i)).SortBy = sortBy;
-        }
+        Vehicle.SortBy = sortBy;
         base.Sort();
     }
     public void ParallelSort(VehicleConstants sortBy)
     {
-        for (Int32 i = 0; i < Store.Length; i++)
-        {
-            ((Vehicle)(Object)Store.Get(i)).SortBy = sortBy;
-        }
+        Vehicle.SortBy = sortBy;
         base.ParallelSort();
     }
 }
