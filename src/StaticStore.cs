@@ -64,9 +64,9 @@ public class StaticStore<T> : ItemStore<T>, IOneDimensionIterable<T>, IOneDimens
     {
         Int32 index = -1;
         Item<T>[] items = base.Items;
-        for (int i = 0; i < Length; i++)
+        for (Int32 i = 0; i < Length; i++)
         {
-            if (items[i].Equals(item))
+            if ((items[i] == item) || (items[i].ToString() == item.ToString()))
             {
                 index = i;
                 break;
