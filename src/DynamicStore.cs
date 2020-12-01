@@ -45,7 +45,7 @@ public class DynamicStore<T> : ItemStore<T>, IInsertable<T>, IOneDimensionIterab
         Item<T>[] items = base.Items;
         for (Int32 i = 0; i < items.Length; i++)
         {
-            if (items[i] == item)
+            if ((items[i] == item) || (items[i].ToString() == item.ToString()))
             {
                 index = i;
                 break;
