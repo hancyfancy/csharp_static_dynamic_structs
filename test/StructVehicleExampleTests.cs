@@ -36,6 +36,7 @@ internal abstract class Vehicle : IComparable<Vehicle>
 {
     private String _registration;
     private Int32 _numberOfWheels;
+    private VehicleConstants _sortBy;
     protected Vehicle(String newRegistration, Int32 newNumberOfWheels)
     {
         Registration = newRegistration;
@@ -63,9 +64,33 @@ internal abstract class Vehicle : IComparable<Vehicle>
             _numberOfWheels = value;
         }
     }
+    internal VehicleConstants SortBy
+    {
+        get
+        {
+            return _sortBy;
+        }
+        set
+        {
+            _sortBy = value;
+        }
+    }
     public int CompareTo(Vehicle other)
     {
-        return NumberOfWheels.CompareTo(other.NumberOfWheels);
+        Int32 comparison;
+        if (SortBy == VehicleConstants.REGISTRATION)
+        {
+            comparison = Registration.CompareTo(other.Registration);
+        }
+        else if (SortBy == VehicleConstants.NUMBEROFWHEELS)
+        {
+            comparison = NumberOfWheels.CompareTo(other.NumberOfWheels);
+        }
+        else
+        {
+            comparison = 1;
+        }
+        return comparison;
     }
     public override String ToString()
     {
@@ -91,6 +116,12 @@ internal class Truck : Vehicle
 
 internal enum VehicleConstants
 {
+    REGISTRATION,
+    NUMBEROFWHEELS
+}
+
+internal enum VehicleStoreConstants
+{
     CAR,
     TRUCK
 }
@@ -101,9 +132,9 @@ internal class VehicleStore<T> : DynamicStore<T> where T : Vehicle
     {
 
     }
-    public Object Get(VehicleConstants vc)
+    public Object Get(VehicleStoreConstants vc)
     {
-        if (vc == VehicleConstants.CAR)
+        if (vc == VehicleStoreConstants.CAR)
         {
             CarStore<Car> vs = new CarStore<Car>();
             for (Int32 i = 0; i < Length; i++)
@@ -116,7 +147,7 @@ internal class VehicleStore<T> : DynamicStore<T> where T : Vehicle
             }
             return vs;
         }
-        else if (vc == VehicleConstants.TRUCK)
+        else if (vc == VehicleStoreConstants.TRUCK)
         {
             TruckStore<Truck> vs = new TruckStore<Truck>();
             for (Int32 i = 0; i < Length; i++)
@@ -152,6 +183,46 @@ internal class TruckStore<T> : VehicleStore<T> where T : Truck
     }
 }
 
+internal class VehicleSorter<T> : OneDimensionSorter<T> where T : Vehicle
+{
+    public VehicleSorter(ItemStore<T> newVehicles) : base(newVehicles)
+    {
+
+    }
+    public void Sort(VehicleConstants sortBy)
+    {
+        for (Int32 i = 0; i < Store.Length; i++)
+        {
+            ((Vehicle)(Object)Store.Get(i)).SortBy = sortBy;
+        }
+        base.Sort();
+    }
+    public void ParallelSort(VehicleConstants sortBy)
+    {
+        for (Int32 i = 0; i < Store.Length; i++)
+        {
+            ((Vehicle)(Object)Store.Get(i)).SortBy = sortBy;
+        }
+        base.ParallelSort();
+    }
+}
+
+internal class CarSorter<T> : VehicleSorter<T> where T : Car
+{
+    public CarSorter(ItemStore<T> newCars) : base(newCars)
+    {
+        
+    }   
+}
+
+internal class TruckSorter<T> : VehicleSorter<T> where T : Truck
+{
+    public TruckSorter(ItemStore<T> newTrucks) : base(newTrucks)
+    {
+        
+    }   
+}
+
 public class StructVehicleExampleTests
 {
     public static void Main()
@@ -160,8 +231,8 @@ public class StructVehicleExampleTests
         vehicleStore.Add(new Car("XYZ123", 4));
         vehicleStore.Add(new Truck("ABC987", 6));
         vehicleStore.Add(new Car("OOR734", 3));
-        OneDimensionSorter<Vehicle> vehicleSorter = new OneDimensionSorter<Vehicle>(vehicleStore);
-        vehicleSorter.Sort();
+        VehicleSorter<Vehicle> vehicleSorter = new VehicleSorter<Vehicle>(vehicleStore);
+        vehicleSorter.Sort(VehicleConstants.NUMBEROFWHEELS);
         Console.WriteLine(vehicleStore);
 
         CarStore<Car> carStoreOne = new CarStore<Car>();
@@ -172,12 +243,16 @@ public class StructVehicleExampleTests
         truckStoreOne.Add(new Truck("NSD359", 0));
         Console.WriteLine(truckStoreOne);
 
-        CarStore<Car> carStoreTwo = (CarStore<Car>)vehicleStore.Get(VehicleConstants.CAR);
+        CarStore<Car> carStoreTwo = (CarStore<Car>)vehicleStore.Get(VehicleStoreConstants.CAR);
         carStoreTwo.Add(new Car("IWE742", 10));
+        CarSorter<Car> carSorter = new CarSorter<Car>(carStoreTwo);
+        carSorter.ParallelSort(VehicleConstants.REGISTRATION);
         Console.WriteLine(carStoreTwo);
 
-        TruckStore<Truck> truckStoreTwo = (TruckStore<Truck>)vehicleStore.Get(VehicleConstants.TRUCK);
+        TruckStore<Truck> truckStoreTwo = (TruckStore<Truck>)vehicleStore.Get(VehicleStoreConstants.TRUCK);
         truckStoreTwo.Add(new Truck("NSD359", 0));
+        TruckSorter<Truck> truckSorter = new TruckSorter<Truck>(truckStoreTwo);
+        truckSorter.Sort(VehicleConstants.NUMBEROFWHEELS);
         Console.WriteLine(truckStoreTwo);
     }
 }
