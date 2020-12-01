@@ -126,7 +126,7 @@ internal enum VehicleStoreConstants
     TRUCK
 }
 
-internal class VehicleStore<T> : DynamicStore<T> where T : Vehicle
+internal class VehicleStore<T> : DynamicUniqueStore<T> where T : Vehicle
 {
     public VehicleStore() : base()
     {
@@ -221,10 +221,15 @@ public class StructVehicleExampleTests
 {
     public static void Main()
     {
+        Car carOne = new Car("XYZ123", 4);
+
         VehicleStore<Vehicle> vehicleStore = new VehicleStore<Vehicle>();
-        vehicleStore.Add(new Car("XYZ123", 4));
+        //vehicleStore.Add(new Car("XYZ123", 4));
+        vehicleStore.Add(carOne);
         vehicleStore.Add(new Truck("ABC987", 6));
         vehicleStore.Add(new Car("OOR734", 3));
+        //vehicleStore.Add(new Car("XYZ123", 4));     //[{Index 0: OOR734; 3}, {Index 1: XYZ123; 4}, {Index 2: XYZ123; 4}, {Index 3: ABC987; 6}]
+        vehicleStore.Add(carOne);
         VehicleSorter<Vehicle> vehicleSorter = new VehicleSorter<Vehicle>(vehicleStore);
         vehicleSorter.Sort(VehicleConstants.NUMBEROFWHEELS);
         Console.WriteLine(vehicleStore);
