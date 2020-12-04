@@ -31,21 +31,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 public class DynamicStore<T> : ItemStore<T>, IInsertable<T>, IOneDimensionIterable<T>, IOneDimensionStorable<T>
 {
     public DynamicStore() : base()
     {
-        base.Items = new Item<T>[]{};
+        base.Items = new T[]{};
     }
-    internal Int32 GetIndex(Item<T> item)
+    public Int32 GetIndex(T item)
     {
         Int32 index = -1;
-        Item<T>[] items = base.Items;
+        T[] items = base.Items;
         for (Int32 i = 0; i < items.Length; i++)
         {
-            if ((items[i] == item) || (items[i].ToString() == item.ToString()))
+            if (EqualityComparer<T>.Default.Equals(items[i], item) || (items[i].ToString() == item.ToString()))
             {
                 index = i;
                 break;
@@ -58,24 +59,20 @@ public class DynamicStore<T> : ItemStore<T>, IInsertable<T>, IOneDimensionIterab
         }
         return index;
     }
-    public Int32 GetIndex(T obj)
-    {
-        return this.GetIndex(new Item<T>(obj));
-    }
-    private Item<T> GetCurrentItem()
+    private T GetCurrent()
     {
         return base.Items[base.CurrentIndex];
     }
-    internal virtual void SetItem(Item<T> newItem)
+    public virtual void Add(T newItem)
     {
-        Item<T>[] newItems = null;
+        T[] newItems = null;
         Int32 currentIndex = base.CurrentIndex;
-        Item<T>[] items = base.Items;
+        T[] items = base.Items;
         Int32 itemsLength = items.Length;
-        newItems = new Item<T>[itemsLength + 1];
+        newItems = new T[itemsLength + 1];
         for (Int32 i = 0; i < itemsLength; i++)
         {
-            Item<T> currentItem = items[i];
+            T currentItem = items[i];
             if (currentItem != null)
             {
                 newItems[i] = currentItem;
@@ -85,13 +82,9 @@ public class DynamicStore<T> : ItemStore<T>, IInsertable<T>, IOneDimensionIterab
         base.Items = newItems;
         base.CurrentIndex = currentIndex + 1;
     }
-    public void Add(T toBeAdded)
+    public void Replace(Int32 index, T newItem)
     {
-        this.SetItem(new Item<T>(toBeAdded));
-    }
-    private void ReplaceItem(Int32 index, Item<T> newItem)
-    {
-        Item<T>[] items = Items;
+        T[] items = Items;
         if (items[index] != null)
         {
             items[index] = newItem;
@@ -103,21 +96,17 @@ public class DynamicStore<T> : ItemStore<T>, IInsertable<T>, IOneDimensionIterab
         }
         base.Items = items;
     }
-    public void Replace(Int32 index, T toBeReplaced)
+    public void Insert(Int32 index, T newItem)
     {
-        this.ReplaceItem(index, new Item<T>(toBeReplaced)); 
-    }
-    private void InsertItem(Int32 index, Item<T> newItem)
-    {
-        Item<T>[] newItems = null;
-        Item<T>[] items = Items;
+        T[] newItems = null;
+        T[] items = Items;
         Int32 itemsLength = items.Length;
         if (index > -1)
         {
             if (index == itemsLength)
             {
                 base.CurrentIndex = itemsLength;
-                SetItem(newItem);
+                Add(newItem);
             }
             else if (index > itemsLength)
             {
@@ -126,7 +115,7 @@ public class DynamicStore<T> : ItemStore<T>, IInsertable<T>, IOneDimensionIterab
             }
             else
             {
-                newItems = new Item<T>[itemsLength+1];
+                newItems = new T[itemsLength+1];
                 if (index == 0)
                 {
                     newItems[index] = newItem;
@@ -155,9 +144,5 @@ public class DynamicStore<T> : ItemStore<T>, IInsertable<T>, IOneDimensionIterab
             MethodBase m = MethodBase.GetCurrentMethod();
             throw new ArgumentException(m.ReflectedType.Name + "." + m.Name + ": Index must be non negative.", "index");
         }
-    }
-    public void Insert(Int32 index, T toBeInserted)
-    {
-        this.InsertItem(index, new Item<T>(toBeInserted));
     }
 }

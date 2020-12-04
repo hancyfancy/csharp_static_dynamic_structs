@@ -28,12 +28,12 @@ using System;
 
 internal class ItemSingularSorter<T> : ItemMerger<T>
 {
-    private Item<T>[] _array;
-    internal ItemSingularSorter(Item<T>[] newArray) : base(newArray)
+    private T[] _array;
+    internal ItemSingularSorter(T[] newArray) : base(newArray)
     {
         Array = newArray;
     }
-    protected Item<T>[] Array
+    protected T[] Array
     {
         get
         {
@@ -44,9 +44,9 @@ internal class ItemSingularSorter<T> : ItemMerger<T>
             _array = value;
         }
     }
-    internal Item<T>[] MergeSort(Int32 l, Int32 r)
+    internal T[] MergeSort(Int32 l, Int32 r)
     {
-        Item<T>[] unsortedDivision = Array;
+        T[] unsortedDivision = Array;
         if (l < r)
         {
             Int32 m = (l + r) / 2;
@@ -54,6 +54,6 @@ internal class ItemSingularSorter<T> : ItemMerger<T>
             MergeSort(m + 1, r);
             base.Merge(l, m, r);
         }
-        return (Item<T>[])unsortedDivision;
+        return unsortedDivision;
     }
 }
