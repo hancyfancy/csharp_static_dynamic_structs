@@ -45,9 +45,7 @@ public class StructTests
         Console.WriteLine("--------------------Static store");
         
         StaticStore<Byte> staticByteStore = new StaticStore<Byte>(4);
-        Console.WriteLine("here1");
         staticByteStore.Add(Byte.MinValue);
-        Console.WriteLine("here2");
         staticByteStore.Add(Byte.MaxValue);
         staticByteStore.Add(1);
         staticByteStore.Add(8);
