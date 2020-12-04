@@ -38,7 +38,7 @@ public class DynamicUniqueStore<T> : DynamicStore<T>
     {
     }
 
-    internal override void SetItem(Item<T> newItem)
+    public override void Add(T newItem)
     {
         try
         {
@@ -46,13 +46,13 @@ public class DynamicUniqueStore<T> : DynamicStore<T>
         }
         catch (ArgumentException)
         {
-            Item<T>[] newItems = null;
+            T[] newItems = null;
             Int32 currentIndex = base.CurrentIndex;
-            Item<T>[] items = base.Items;
+            T[] items = base.Items;
             Int32 itemsLength = items.Length;
-            newItems = new Item<T>[itemsLength + 1];
+            newItems = new T[itemsLength + 1];
             for (Int32 i = 0; i < itemsLength; i++) {
-                Item<T> currentItem = items[i];
+                T currentItem = items[i];
                 if (currentItem != null) {
                     newItems[i] = currentItem;
                 }

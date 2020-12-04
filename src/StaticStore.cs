@@ -31,6 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 public class StaticStore<T> : ItemStore<T>, IOneDimensionIterable<T>, IOneDimensionStorable<T>
@@ -39,7 +40,7 @@ public class StaticStore<T> : ItemStore<T>, IOneDimensionIterable<T>, IOneDimens
     public StaticStore(Int32 length) : base()
     {
         Length = length;
-        base.Items = new Item<T>[length];
+        base.Items = new T[length];
     }
     public override Int32 Length
     {
@@ -60,13 +61,13 @@ public class StaticStore<T> : ItemStore<T>, IOneDimensionIterable<T>, IOneDimens
             }
         }
     }
-    private Int32 GetIndex(Item<T> item)
+    public Int32 GetIndex(T item)
     {
         Int32 index = -1;
-        Item<T>[] items = base.Items;
+        T[] items = base.Items;
         for (Int32 i = 0; i < Length; i++)
         {
-            if ((items[i] == item) || (items[i].ToString() == item.ToString()))
+            if (EqualityComparer<T>.Default.Equals(items[i], item) || (items[i].ToString() == item.ToString()))
             {
                 index = i;
                 break;
@@ -79,21 +80,17 @@ public class StaticStore<T> : ItemStore<T>, IOneDimensionIterable<T>, IOneDimens
         }
         return index;
     }
-    public Int32 GetIndex(T obj)
-    {
-        return GetIndex(new Item<T>(obj));
-    }
-    private Item<T> GetCurrentItem()
+    private T GetCurrent()
     {
         return base.Items[base.CurrentIndex];
     }
-    private void SetItem(Item<T> newItem)
+    public void Add(T newItem)
     {
         Int32 currentIndex = base.CurrentIndex;
-        Item<T>[] items = base.Items;
+        T[] items = base.Items;
         if (currentIndex < Length)
         {
-            if (items[currentIndex] == null)
+            if (EqualityComparer<T>.Default.Equals(items[currentIndex], default(T)))
             {
                 items[currentIndex] = newItem;
             }
@@ -109,15 +106,11 @@ public class StaticStore<T> : ItemStore<T>, IOneDimensionIterable<T>, IOneDimens
             base.CurrentIndex = nextIndex;
         }
     }
-    public void Add(T toBeAdded)
-    {
-        this.SetItem(new Item<T>(toBeAdded));
-    }
-    private void ReplaceItem(Int32 index, Item<T> newItem)
+    public void Replace(Int32 index, T newItem)
     {
         if (index < Length)
         {
-            Item<T>[] items = Items;
+            T[] items = Items;
             if (items[index] != null)
             {
                 items[index] = newItem;
@@ -129,9 +122,5 @@ public class StaticStore<T> : ItemStore<T>, IOneDimensionIterable<T>, IOneDimens
             }
             base.Items = items;
         }
-    }
-    public void Replace(Int32 index, T toBeReplaced)
-    {
-        this.ReplaceItem(index, new Item<T>(toBeReplaced)); 
     }
 }

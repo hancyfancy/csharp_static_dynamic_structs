@@ -30,7 +30,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-using Microsoft.CSharp.RuntimeBinder;
+/* OBSOLETE */
+
+/*using Microsoft.CSharp.RuntimeBinder;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -128,4 +130,4 @@ internal class Item<T> : IEquatable<Item<T>>
     {
         return (object)Content;
     }
-}
+}*/

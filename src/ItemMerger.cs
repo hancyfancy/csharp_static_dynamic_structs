@@ -25,15 +25,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 using System;
+using System.Collections.Generic;
 
 internal class ItemMerger<T>
 {
-    private Item<T>[] _unmergedItems;
-    protected ItemMerger(Item<T>[] newArray)
+    private T[] _unmergedItems;
+    protected ItemMerger(T[] newArray)
     {
         UnmergedItems = newArray;
     }
-    protected Item<T>[] UnmergedItems
+    protected T[] UnmergedItems
     {
         get
         {
@@ -46,11 +47,11 @@ internal class ItemMerger<T>
     }
     protected void Merge(Int32 l, Int32 m, Int32 r)
     {
-        Item<T>[] sortedDivision = UnmergedItems;
+        T[] sortedDivision = UnmergedItems;
         Int32 n1 = m - l + 1;
         Int32 n2 = r - m;
-        Item<T>[] left = new Item<T>[n1];
-        Item<T>[] right = new Item<T>[n2];
+        T[] left = new T[n1];
+        T[] right = new T[n2];
         for (Int32 i = 0; i < n1; ++i) {
             left[i] = sortedDivision[l + i];
         }
@@ -60,7 +61,7 @@ internal class ItemMerger<T>
         Int32 x = 0, y = 0;
         Int32 k = l;
         while (x < n1 && y < n2) {
-            if (left[x] > right[y]) {
+            if (Comparer<T>.Default.Compare(left[x], right[y]) > 0) {
                 sortedDivision[k] = right[y];
                 y++;
             } else {

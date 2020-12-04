@@ -45,7 +45,9 @@ public class StructTests
         Console.WriteLine("--------------------Static store");
         
         StaticStore<Byte> staticByteStore = new StaticStore<Byte>(4);
+        Console.WriteLine("here1");
         staticByteStore.Add(Byte.MinValue);
+        Console.WriteLine("here2");
         staticByteStore.Add(Byte.MaxValue);
         staticByteStore.Add(1);
         staticByteStore.Add(8);
@@ -205,34 +207,34 @@ public class StructTests
 
         Console.WriteLine("--------------------Dynamic sorted store");
 
-        Int32 n = 100;
+        Int32 n = 1000000;
         Console.WriteLine("size of array = " + Convert.ToString(n) + "\n");
         Int32[] intArr = new Int32[n];
-        DynamicStore<Int32> dynamicSortedIntegerStoreOne = new DynamicStore<Int32>();
-        DynamicStore<Int32> dynamicSortedIntegerStoreTwo = new DynamicStore<Int32>();
+        StaticStore<Int32> staticSortedIntegerStoreOne = new StaticStore<Int32>(n);
+        StaticStore<Int32> staticSortedIntegerStoreTwo = new StaticStore<Int32>(n);
         for (Int32 i = 0; i < n; i++)
         {
-            Int32 rand = random.Next(1000000);
-            dynamicSortedIntegerStoreOne.Add(rand);
-            dynamicSortedIntegerStoreTwo.Add(rand);
+            Int32 rand = random.Next(100000000);
+            staticSortedIntegerStoreOne.Add(rand);
+            staticSortedIntegerStoreTwo.Add(rand);
             intArr[i] = rand;
         }
-        //Console.WriteLine(dynamicSortedIntegerStoreOne);
+        //Console.WriteLine(staticSortedIntegerStoreOne);
         sw0.Start();
         Array.Sort(intArr);
         sw0.Stop();
         Console.WriteLine("Array sort elapsed time: " + Convert.ToString(sw0.ElapsedMilliseconds) + " ms\n");
-        OneDimensionSorter<Int32> dynamicSortedIntegerStoreOneSingularSorter = new OneDimensionSorter<Int32>(dynamicSortedIntegerStoreOne);
+        OneDimensionSorter<Int32> staticSortedIntegerStoreOneSingularSorter = new OneDimensionSorter<Int32>(staticSortedIntegerStoreOne);
         sw1.Start();
-        dynamicSortedIntegerStoreOneSingularSorter.Sort();
+        staticSortedIntegerStoreOneSingularSorter.Sort();
         sw1.Stop();
         Console.WriteLine("Singular merge sort elapsed time: " + Convert.ToString(sw1.ElapsedMilliseconds) + " ms\n");
-        OneDimensionSorter<Int32> dynamicSortedIntegerStoreTwoParallelSorter = new OneDimensionSorter<Int32>(dynamicSortedIntegerStoreTwo);
+        OneDimensionSorter<Int32> staticSortedIntegerStoreTwoParallelSorter = new OneDimensionSorter<Int32>(staticSortedIntegerStoreTwo);
         sw2.Start();
-        dynamicSortedIntegerStoreTwoParallelSorter.ParallelSort();
+        staticSortedIntegerStoreTwoParallelSorter.ParallelSort();
         sw2.Stop();
         Console.WriteLine("Parallel merge sort elapsed time: " + Convert.ToString(sw2.ElapsedMilliseconds) + " ms\n");
-        //Console.WriteLine(dynamicSortedIntegerStoreTwo);
+        //Console.WriteLine(staticSortedIntegerStoreTwo);
 
         DynamicStore<String> dynamicSortedStringStore = new DynamicStore<String>();
         dynamicSortedStringStore.Add("Fellow");

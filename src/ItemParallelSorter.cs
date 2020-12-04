@@ -30,14 +30,14 @@ using System.Threading.Tasks;
 
 internal class ItemParallelSorter<T> : ItemMerger<T>
 {
-    private Item<T>[] _array;
+    private T[] _array;
     private volatile Int32 _threadCount;
-    internal ItemParallelSorter(Item<T>[] newArray) : base(newArray)
+    internal ItemParallelSorter(T[] newArray) : base(newArray)
     {
         Array = newArray;
         ThreadCount = 0;
     }
-    protected Item<T>[] Array
+    protected T[] Array
     {
         get
         {
@@ -59,9 +59,9 @@ internal class ItemParallelSorter<T> : ItemMerger<T>
             _threadCount = value;
         }
     }
-    internal Item<T>[] MergeSort(Int32 l, Int32 r)
+    internal T[] MergeSort(Int32 l, Int32 r)
     {
-        Item<T>[] unsortedDivision = Array;
+        T[] unsortedDivision = Array;
         if (l < r)
         {
             Int32 m = (l + r) / 2;
@@ -78,6 +78,6 @@ internal class ItemParallelSorter<T> : ItemMerger<T>
             }
             base.Merge(l, m, r);
         }
-        return (Item<T>[])unsortedDivision;
+        return unsortedDivision;
     }
 }

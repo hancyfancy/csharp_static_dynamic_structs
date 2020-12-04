@@ -30,7 +30,7 @@ using System.Reflection;
 public abstract class ItemStore<T>
 {
     private Int32 _currentIndex;
-    private Item<T>[] _items;
+    private T[] _items;
     public ItemStore()
     {
         CurrentIndex = 0;
@@ -46,7 +46,7 @@ public abstract class ItemStore<T>
             _currentIndex = value;
         }
     }
-    internal Item<T>[] Items
+    internal T[] Items
     {
         get
         {
@@ -68,17 +68,13 @@ public abstract class ItemStore<T>
             
         }
     }
-    internal Item<T> GetItem(Int32 index)
+    public T Get(Int32 index)
     {
         return Items[index];
     }
-    public T Get(Int32 index)
+    public void ReplaceAll(T newItem)
     {
-        return GetItem(index).Content;
-    }
-    internal void ReplaceAllItems(Item<T> newItem)
-    {
-        Item<T>[] items = Items;
+        T[] items = Items;
         for (Int32 i = 0; i < items.Length; i++)
         {
             if (items[i] != null)
@@ -93,14 +89,10 @@ public abstract class ItemStore<T>
         }
         Items = items;
     }
-    public void ReplaceAll(T toBeReplaced)
-    {
-        ReplaceAllItems(new Item<T>(toBeReplaced));
-    }
     public override String ToString()
     {
         String output = "";
-        Item<T>[] items = Items;
+        T[] items = Items;
         output = output + "[";
         for (Int32 i = 0; i < items.Length; i++)
         {
