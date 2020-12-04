@@ -203,7 +203,7 @@ public class StructTests
         dynamicObjectStore.Add(new Object());
         Console.WriteLine(dynamicObjectStore);
 
-        Console.WriteLine("--------------------Dynamic sorted store");
+        Console.WriteLine("--------------------Static sorted store");
 
         Int32 n = 1000000;
         Console.WriteLine("size of array = " + Convert.ToString(n) + "\n");
