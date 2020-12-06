@@ -66,7 +66,7 @@ Simple one dimensional and two dimensional data structures.
 [{Index 0: }, {Index 1: System.Object}]
 
 --------------------Static store replace item
-[{Index 0: }, {Index 1: }, {Index 2: }, {Index 3: }]
+[{Index 0: 0}, {Index 1: 0}, {Index 2: 0}, {Index 3: 0}]
 
 [{Index 0: 1}, {Index 1: 3}, {Index 2: 9}, {Index 3: 5}]
 
@@ -96,14 +96,14 @@ Item at index 3 = 0
 
 [{Index 0: }, {Index 1: System.Object}]
 
---------------------Dynamic sorted store
-size of array = 100
+--------------------Static sorted store
+size of array = 1000000
 
-Array sort elapsed time: 1 ms
+Array sort elapsed time: 236 ms
 
-Singular merge sort elapsed time: 0 ms
+Singular merge sort elapsed time: 362 ms
 
-Parallel merge sort elapsed time: 4 ms
+Parallel merge sort elapsed time: 243 ms
 
 [{Index 0: Bellow}, {Index 1: Fellow}, {Index 2: Mellow}, {Index 3: Yellow}]
 
@@ -133,7 +133,7 @@ Index 1: Key -> Bicker, Value -> 9
 Index 2: Key -> Shulz, Value -> 7
 Index 3: Key -> Jems, Value -> 3
 
-Index 0: Key -> 1, Value -> [{Index 0: }, {Index 1: }, {Index 2: }, {Index 3: }]
+Index 0: Key -> 1, Value -> [{Index 0: 0}, {Index 1: 0}, {Index 2: 0}, {Index 3: 0}]
 
 Index 1: Key -> 2, Value -> []
 
@@ -163,13 +163,13 @@ Index 3: Key -> Bicker, Value -> 9
 Yukon -> 8
 3 <- Jems
 
-[{Index 0: OOR734; 3}, {Index 1: XYZ123; 4}, {Index 2: XYZ123; 4}, {Index 3: ABC987; 6}]
+[{Index 0: OOR734; 3}, {Index 1: XYZ123; 4}, {Index 2: ABC987; 6}]
 
 [{Index 0: IWE742; 4}]
 
 [{Index 0: NSD359; 8}]
 
-[{Index 0: IWE742; 4}, {Index 1: OOR734; 3}, {Index 2: XYZ123; 4}, {Index 3: XYZ123; 4}]
+[{Index 0: IWE742; 4}, {Index 1: OOR734; 3}, {Index 2: XYZ123; 4}]
 
 [{Index 0: ABC987; 6}, {Index 1: NSD359; 8}]
 ```
