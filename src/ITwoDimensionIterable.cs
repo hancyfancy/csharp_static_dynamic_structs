@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
 
-interface ITwoDimensionIterable<K,V> {
+public interface ITwoDimensionIterable<K,V> {
     Int32 GetKeyIndex(K key);
     Int32 GetValueIndex(V val);
 }

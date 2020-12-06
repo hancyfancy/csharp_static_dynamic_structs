@@ -44,7 +44,7 @@ public class StructTests
 
         Console.WriteLine("--------------------Static store");
         
-        StaticStore<Byte> staticByteStore = new StaticStore<Byte>(4);
+        IOneDimensionStorable<Byte> staticByteStore = new StaticStore<Byte>(4);
         staticByteStore.Add(Byte.MinValue);
         staticByteStore.Add(Byte.MaxValue);
         staticByteStore.Add(1);
@@ -53,28 +53,28 @@ public class StructTests
         Console.WriteLine(staticByteStore);
 
         //StaticStore<Int16> staticInvalidShortStore = new StaticStore<Int16>(-1);
-        StaticStore<Int16> staticShortStore = new StaticStore<Int16>(4);
+        IOneDimensionStorable<Int16> staticShortStore = new StaticStore<Int16>(4);
         staticShortStore.Add(Int16.MinValue);
         staticShortStore.Add(Int16.MaxValue);
         staticShortStore.Add(2);
         staticShortStore.Add(16);
         Console.WriteLine(staticShortStore);
 
-        StaticStore<Int32> staticIntegerStore = new StaticStore<Int32>(4);
+        IOneDimensionStorable<Int32> staticIntegerStore = new StaticStore<Int32>(4);
         staticIntegerStore.Add(Int32.MinValue);
         staticIntegerStore.Add(Int32.MaxValue);
         staticIntegerStore.Add(4);
         staticIntegerStore.Add(32);
         Console.WriteLine(staticIntegerStore);
 
-        StaticStore<Int64> staticLongStore = new StaticStore<Int64>(4);
+        IOneDimensionStorable<Int64> staticLongStore = new StaticStore<Int64>(4);
         staticLongStore.Add(Int64.MinValue);
         staticLongStore.Add(Int64.MaxValue);
         staticLongStore.Add(8);
         staticLongStore.Add(64);
         Console.WriteLine(staticLongStore);
 
-        StaticStore<Single> staticFloatStore = new StaticStore<Single>(6);
+        IOneDimensionStorable<Single> staticFloatStore = new StaticStore<Single>(6);
         staticFloatStore.Add(Single.MinValue);
         staticFloatStore.Add(Single.MaxValue);
         staticFloatStore.Add(Single.NegativeInfinity);
@@ -83,7 +83,7 @@ public class StructTests
         staticFloatStore.Add(Single.NaN);
         Console.WriteLine(staticFloatStore);
 
-        StaticStore<Double> staticDoubleStore = new StaticStore<Double>(6);
+        IOneDimensionStorable<Double> staticDoubleStore = new StaticStore<Double>(6);
         staticDoubleStore.Add(Double.MinValue);
         staticDoubleStore.Add(Double.MaxValue);
         staticDoubleStore.Add(Double.NegativeInfinity);
@@ -92,31 +92,31 @@ public class StructTests
         staticDoubleStore.Add(Double.NaN);
         Console.WriteLine(staticDoubleStore);
 
-        StaticStore<Char> staticCharacterStore = new StaticStore<Char>(2);
+        IOneDimensionStorable<Char> staticCharacterStore = new StaticStore<Char>(2);
         staticCharacterStore.Add(Char.MinValue);
         staticCharacterStore.Add(Char.MaxValue);
         Console.WriteLine(staticCharacterStore);
 
-        StaticStore<Boolean> staticBooleanStore = new StaticStore<Boolean>(2);
+        IOneDimensionStorable<Boolean> staticBooleanStore = new StaticStore<Boolean>(2);
         staticBooleanStore.Add(false);
         staticBooleanStore.Add(true);
         Console.WriteLine(staticBooleanStore);
 
-        StaticStore<String> staticStringStore = new StaticStore<String>(4);
+        IOneDimensionStorable<String> staticStringStore = new StaticStore<String>(4);
         staticStringStore.Add("Fellow");
         staticStringStore.Add("Mellow");
         staticStringStore.Add("Yellow");
         staticStringStore.Add("Bellow");
         Console.WriteLine(staticStringStore);
 
-        StaticStore<Object> staticObjectStore = new StaticStore<Object>(2);
+        IOneDimensionStorable<Object> staticObjectStore = new StaticStore<Object>(2);
         staticObjectStore.Add(null);
         staticObjectStore.Add(new Object());
         Console.WriteLine(staticObjectStore);
 
         Console.WriteLine("--------------------Static store replace item");
 
-        StaticStore<Int32> staticReplacedIntegerStore = new StaticStore<Int32>(4);
+        IOneDimensionStorable<Int32> staticReplacedIntegerStore = new StaticStore<Int32>(4);
         Console.WriteLine(staticReplacedIntegerStore);
         //staticReplacedIntegerStore.ReplaceAll(0);
         //Console.WriteLine(staticReplacedIntegerStore);
@@ -135,35 +135,35 @@ public class StructTests
 
         Console.WriteLine("--------------------Dynamic store");
 
-        DynamicStore<Byte> dynamicByteStore = new DynamicStore<Byte>();
+        IOneDimensionStorable<Byte> dynamicByteStore = new DynamicStore<Byte>();
         dynamicByteStore.Add(Byte.MinValue);
         dynamicByteStore.Add(Byte.MaxValue);
         dynamicByteStore.Add(1);
         dynamicByteStore.Add(8);
         Console.WriteLine(dynamicByteStore);
 
-        DynamicStore<Int16> dynamicShortStore = new DynamicStore<Int16>();
+        IOneDimensionStorable<Int16> dynamicShortStore = new DynamicStore<Int16>();
         dynamicShortStore.Add(Int16.MinValue);
         dynamicShortStore.Add(Int16.MaxValue);
         dynamicShortStore.Add(2);
         dynamicShortStore.Add(16);
         Console.WriteLine(dynamicShortStore);
 
-        DynamicStore<Int32> dynamicIntegerStore = new DynamicStore<Int32>();
+        IOneDimensionStorable<Int32> dynamicIntegerStore = new DynamicStore<Int32>();
         dynamicIntegerStore.Add(Int32.MinValue);
         dynamicIntegerStore.Add(Int32.MaxValue);
         dynamicIntegerStore.Add(4);
         dynamicIntegerStore.Add(32);
         Console.WriteLine(dynamicIntegerStore);
 
-        DynamicStore<Int64> dynamicLongStore = new DynamicStore<Int64>();
+        IOneDimensionStorable<Int64> dynamicLongStore = new DynamicStore<Int64>();
         dynamicLongStore.Add(Int64.MinValue);
         dynamicLongStore.Add(Int64.MaxValue);
         dynamicLongStore.Add(8);
         dynamicLongStore.Add(64);
         Console.WriteLine(dynamicLongStore);
 
-        DynamicStore<Single> dynamicFloatStore = new DynamicStore<Single>();
+        IOneDimensionStorable<Single> dynamicFloatStore = new DynamicStore<Single>();
         dynamicFloatStore.Add(Single.MinValue);
         dynamicFloatStore.Add(Single.MaxValue);
         dynamicFloatStore.Add(Single.NegativeInfinity);
@@ -172,7 +172,7 @@ public class StructTests
         dynamicFloatStore.Add(Single.NaN);
         Console.WriteLine(dynamicFloatStore);
 
-        DynamicStore<Double> dynamicDoubleStore = new DynamicStore<Double>();
+        IOneDimensionStorable<Double> dynamicDoubleStore = new DynamicStore<Double>();
         dynamicDoubleStore.Add(Double.MinValue);
         dynamicDoubleStore.Add(Double.MaxValue);
         dynamicDoubleStore.Add(Double.NegativeInfinity);
@@ -181,24 +181,24 @@ public class StructTests
         dynamicDoubleStore.Add(Double.NaN);
         Console.WriteLine(dynamicDoubleStore);
 
-        DynamicStore<Char> dynamicCharacterStore = new DynamicStore<Char>();
+        IOneDimensionStorable<Char> dynamicCharacterStore = new DynamicStore<Char>();
         dynamicCharacterStore.Add(Char.MinValue);
         dynamicCharacterStore.Add(Char.MaxValue);
         Console.WriteLine(dynamicCharacterStore);
 
-        DynamicStore<Boolean> dynamicBooleanStore = new DynamicStore<Boolean>();
+        IOneDimensionStorable<Boolean> dynamicBooleanStore = new DynamicStore<Boolean>();
         dynamicBooleanStore.Add(false);
         dynamicBooleanStore.Add(true);
         Console.WriteLine(dynamicBooleanStore);
 
-        DynamicStore<String> dynamicStringStore = new DynamicStore<String>();
+        IOneDimensionStorable<String> dynamicStringStore = new DynamicStore<String>();
         dynamicStringStore.Add("Fellow");
         dynamicStringStore.Add("Mellow");
         dynamicStringStore.Add("Yellow");
         dynamicStringStore.Add("Bellow");
         Console.WriteLine(dynamicStringStore);
 
-        DynamicStore<Object> dynamicObjectStore = new DynamicStore<Object>();
+        IOneDimensionStorable<Object> dynamicObjectStore = new DynamicStore<Object>();
         dynamicObjectStore.Add(null);
         dynamicObjectStore.Add(new Object());
         Console.WriteLine(dynamicObjectStore);
@@ -208,8 +208,8 @@ public class StructTests
         Int32 n = 1000000;
         Console.WriteLine("size of array = " + Convert.ToString(n) + "\n");
         Int32[] intArr = new Int32[n];
-        StaticStore<Int32> staticSortedIntegerStoreOne = new StaticStore<Int32>(n);
-        StaticStore<Int32> staticSortedIntegerStoreTwo = new StaticStore<Int32>(n);
+        IOneDimensionStorable<Int32> staticSortedIntegerStoreOne = new StaticStore<Int32>(n);
+        IOneDimensionStorable<Int32> staticSortedIntegerStoreTwo = new StaticStore<Int32>(n);
         for (Int32 i = 0; i < n; i++)
         {
             Int32 rand = random.Next(100000000);
@@ -222,30 +222,30 @@ public class StructTests
         Array.Sort(intArr);
         sw0.Stop();
         Console.WriteLine("Array sort elapsed time: " + Convert.ToString(sw0.ElapsedMilliseconds) + " ms\n");
-        OneDimensionSorter<Int32> staticSortedIntegerStoreOneSingularSorter = new OneDimensionSorter<Int32>(staticSortedIntegerStoreOne);
+        IOneDimensionSortable<Int32> staticSortedIntegerStoreOneSingularSorter = new OneDimensionSorter<Int32>(staticSortedIntegerStoreOne);
         sw1.Start();
         staticSortedIntegerStoreOneSingularSorter.Sort();
         sw1.Stop();
         Console.WriteLine("Singular merge sort elapsed time: " + Convert.ToString(sw1.ElapsedMilliseconds) + " ms\n");
-        OneDimensionSorter<Int32> staticSortedIntegerStoreTwoParallelSorter = new OneDimensionSorter<Int32>(staticSortedIntegerStoreTwo);
+        IOneDimensionSortable<Int32> staticSortedIntegerStoreTwoParallelSorter = new OneDimensionSorter<Int32>(staticSortedIntegerStoreTwo);
         sw2.Start();
         staticSortedIntegerStoreTwoParallelSorter.ParallelSort();
         sw2.Stop();
         Console.WriteLine("Parallel merge sort elapsed time: " + Convert.ToString(sw2.ElapsedMilliseconds) + " ms\n");
         //Console.WriteLine(staticSortedIntegerStoreTwo);
 
-        DynamicStore<String> dynamicSortedStringStore = new DynamicStore<String>();
+        IOneDimensionStorable<String> dynamicSortedStringStore = new DynamicStore<String>();
         dynamicSortedStringStore.Add("Fellow");
         dynamicSortedStringStore.Add("Mellow");
         dynamicSortedStringStore.Add("Yellow");
         dynamicSortedStringStore.Add("Bellow");
-        OneDimensionSorter<String> dynamicSortedStringStoreSingularSorter = new OneDimensionSorter<String>(dynamicSortedStringStore);
+        IOneDimensionSortable<String> dynamicSortedStringStoreSingularSorter = new OneDimensionSorter<String>(dynamicSortedStringStore);
         dynamicSortedStringStoreSingularSorter.Sort();
         Console.WriteLine(dynamicSortedStringStore);
 
         Console.WriteLine("--------------------Dynamic store replace item");
         
-        DynamicStore<Int32> dynamicReplacedIntegerStore = new DynamicStore<Int32>();
+        IOneDimensionStorable<Int32> dynamicReplacedIntegerStore = new DynamicStore<Int32>();
         dynamicReplacedIntegerStore.Add(1);
         dynamicReplacedIntegerStore.Add(3);
         //dynamicReplacedIntegerStore.Replace(2, 7);
@@ -256,6 +256,7 @@ public class StructTests
         Console.WriteLine(dynamicReplacedIntegerStore);
 
         Console.WriteLine("--------------------Dynamic store insert item");
+        //If object implements multiple interfaces and functions from other interfaces are called, object must be instantiator 
         DynamicStore<Int32> dynamicInsertedIntegerStore = new DynamicStore<Int32>();
         dynamicInsertedIntegerStore.Add(1);
         dynamicInsertedIntegerStore.Add(3);
@@ -278,7 +279,7 @@ public class StructTests
 
         Console.WriteLine("--------------------Dynamic unique item store");
         
-        DynamicUniqueStore<Int32> dynamicUniqueIntegerStore = new DynamicUniqueStore<Int32>();
+        IOneDimensionStorable<Int32> dynamicUniqueIntegerStore = new DynamicUniqueStore<Int32>();
         dynamicUniqueIntegerStore.Add(1);
         dynamicUniqueIntegerStore.Add(2);
         dynamicUniqueIntegerStore.Add(1);
@@ -287,14 +288,14 @@ public class StructTests
 
         Console.WriteLine("--------------------Dynamic key value store");
 
-        DynamicMap<String,Int32> dynamicKeyValueStore = new DynamicMap<String,Int32>();
+        ITwoDimensionStorable<String,Int32> dynamicKeyValueStore = new DynamicMap<String,Int32>();
         dynamicKeyValueStore.Add("Yukon", 8);
         dynamicKeyValueStore.Add("Bicker", 9);
         dynamicKeyValueStore.Add("Shulz", 7);
         dynamicKeyValueStore.Add("Jems", 3);
         Console.WriteLine(dynamicKeyValueStore);
 
-        DynamicMap<Int32,ItemStore<Int32>> dynamicKeyValueStoreWithListValue = new DynamicMap<Int32,ItemStore<Int32>>();
+        ITwoDimensionStorable<Int32,IOneDimensionStorable<Int32>> dynamicKeyValueStoreWithListValue = new DynamicMap<Int32,IOneDimensionStorable<Int32>>();
         dynamicKeyValueStoreWithListValue.Add(1, new StaticStore<Int32>(4));
         dynamicKeyValueStoreWithListValue.Add(2, new DynamicStore<Int32>());
         dynamicKeyValueStoreWithListValue.Add(3, new DynamicUniqueStore<Int32>());
@@ -302,14 +303,14 @@ public class StructTests
 
         Console.WriteLine("--------------------Dynamic sorted key value store");
 
-        DynamicMap<Int32,String> dynamicSortedIntegerKeyValueStore = new DynamicMap<Int32,String>();
+        ITwoDimensionStorable<Int32,String> dynamicSortedIntegerKeyValueStore = new DynamicMap<Int32,String>();
         dynamicSortedIntegerKeyValueStore.Add(88, "Yukon");
         dynamicSortedIntegerKeyValueStore.Add(832, "Bicker");
         dynamicSortedIntegerKeyValueStore.Add(832, "Blitzer");
         dynamicSortedIntegerKeyValueStore.Add(7, "Shulz");
         dynamicSortedIntegerKeyValueStore.Add(17, "Shulz");
         dynamicSortedIntegerKeyValueStore.Add(3, "Jems");
-        TwoDimensionSorter<Int32,String> dynamicSortedIntegerKeyValueStoreSingularSorter = new TwoDimensionSorter<Int32,String>(dynamicSortedIntegerKeyValueStore);
+        ITwoDimensionSortable<Int32,String> dynamicSortedIntegerKeyValueStoreSingularSorter = new TwoDimensionSorter<Int32,String>(dynamicSortedIntegerKeyValueStore);
         dynamicSortedIntegerKeyValueStoreSingularSorter.Sort(TwoDimensionConstants.KEY);
         Console.WriteLine(dynamicSortedIntegerKeyValueStore);
         Console.WriteLine("7 -> " + Convert.ToString(dynamicSortedIntegerKeyValueStore.GetValue(7)));
@@ -317,8 +318,8 @@ public class StructTests
         Console.WriteLine("Blitzer <- " + Convert.ToString(dynamicSortedIntegerKeyValueStore.GetKey("Blitzer")));
         Console.WriteLine();
 
-        DynamicMap<String,Int32> dynamicSortedStringKeyValueStoreOne = new DynamicMap<String,Int32>();
-        DynamicMap<String,Int32> dynamicSortedStringKeyValueStoreTwo = new DynamicMap<String,Int32>();
+        ITwoDimensionStorable<String,Int32> dynamicSortedStringKeyValueStoreOne = new DynamicMap<String,Int32>();
+        ITwoDimensionStorable<String,Int32> dynamicSortedStringKeyValueStoreTwo = new DynamicMap<String,Int32>();
         dynamicSortedStringKeyValueStoreOne.Add("Yukon", 8);
         dynamicSortedStringKeyValueStoreOne.Add("Bicker", 9);
         dynamicSortedStringKeyValueStoreOne.Add("Shulz", 7);
@@ -327,10 +328,10 @@ public class StructTests
         dynamicSortedStringKeyValueStoreTwo.Add("Bicker", 9);
         dynamicSortedStringKeyValueStoreTwo.Add("Shulz", 7);
         dynamicSortedStringKeyValueStoreTwo.Add("Jems", 3);
-        TwoDimensionSorter<String,Int32> dynamicSortedStringKeyValueStoreOneSingularSorter = new TwoDimensionSorter<String,Int32>(dynamicSortedStringKeyValueStoreOne);
+        ITwoDimensionSortable<String,Int32> dynamicSortedStringKeyValueStoreOneSingularSorter = new TwoDimensionSorter<String,Int32>(dynamicSortedStringKeyValueStoreOne);
         dynamicSortedStringKeyValueStoreOneSingularSorter.Sort(TwoDimensionConstants.VALUE);
         Console.WriteLine(dynamicSortedStringKeyValueStoreOne);
-        TwoDimensionSorter<String,Int32> dynamicSortedStringKeyValueStoreTwoParallelSorter = new TwoDimensionSorter<String,Int32>(dynamicSortedStringKeyValueStoreTwo);
+        ITwoDimensionSortable<String,Int32> dynamicSortedStringKeyValueStoreTwoParallelSorter = new TwoDimensionSorter<String,Int32>(dynamicSortedStringKeyValueStoreTwo);
         dynamicSortedStringKeyValueStoreTwoParallelSorter.ParallelSort(TwoDimensionConstants.VALUE);
         Console.WriteLine(dynamicSortedStringKeyValueStoreTwo);
         Console.WriteLine("Yukon -> " + Convert.ToString(dynamicSortedStringKeyValueStoreOne.GetValue("Yukon")));

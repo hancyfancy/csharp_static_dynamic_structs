@@ -32,6 +32,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
 
-interface IInsertable<T> {
+public interface IInsertable<T> {
     void Insert(Int32 index, T toBeInserted);
 }

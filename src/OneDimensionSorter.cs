@@ -31,9 +31,9 @@ public class OneDimensionSorter<T> : IOneDimensionSortable<T>
     private ItemStore<T> _store;
     private ItemSingularSorter<T> _singularSorter;
     private ItemParallelSorter<T> _parallelSorter;
-    public OneDimensionSorter(ItemStore<T> newStore)
+    public OneDimensionSorter(IOneDimensionStorable<T> newStore)
     {
-        Store = newStore;
+        Store = (ItemStore<T>)newStore;
         SingularSorter = new ItemSingularSorter<T>(Store.Items);
         ParallelSorter = new ItemParallelSorter<T>(Store.Items);
     }

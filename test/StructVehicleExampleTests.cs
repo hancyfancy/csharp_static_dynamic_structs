@@ -185,7 +185,7 @@ internal class TruckStore<T> : VehicleStore<T> where T : Truck
 
 internal class VehicleSorter<T> : OneDimensionSorter<T> where T : Vehicle
 {
-    public VehicleSorter(ItemStore<T> newVehicles) : base(newVehicles)
+    public VehicleSorter(IOneDimensionStorable<T> newVehicles) : base(newVehicles)
     {
 
     }
@@ -203,7 +203,7 @@ internal class VehicleSorter<T> : OneDimensionSorter<T> where T : Vehicle
 
 internal class CarSorter<T> : VehicleSorter<T> where T : Car
 {
-    public CarSorter(ItemStore<T> newCars) : base(newCars)
+    public CarSorter(IOneDimensionStorable<T> newCars) : base(newCars)
     {
         
     }   
@@ -211,7 +211,7 @@ internal class CarSorter<T> : VehicleSorter<T> where T : Car
 
 internal class TruckSorter<T> : VehicleSorter<T> where T : Truck
 {
-    public TruckSorter(ItemStore<T> newTrucks) : base(newTrucks)
+    public TruckSorter(IOneDimensionStorable<T> newTrucks) : base(newTrucks)
     {
         
     }   

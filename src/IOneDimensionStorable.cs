@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
 
-interface IOneDimensionStorable<T> {
+public interface IOneDimensionStorable<T> {
     T Get(Int32 index);
     void Add(T toBeAdded);
     void Replace(Int32 index, T toBeReplaced);

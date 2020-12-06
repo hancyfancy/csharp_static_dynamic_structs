@@ -33,9 +33,9 @@ public class TwoDimensionSorter<K,V> : ITwoDimensionSortable<K,V>
     private ItemSingularSorter<V> _singularValueSorter;
     private ItemParallelSorter<K> _parallelKeySorter;
     private ItemParallelSorter<V> _parallelValueSorter;
-    public TwoDimensionSorter(DynamicMap<K,V> newMap)
+    public TwoDimensionSorter(ITwoDimensionStorable<K,V> newMap)
     {
-        Map = newMap;
+        Map = (DynamicMap<K,V>)newMap;
     }
     protected DynamicMap<K,V> Map
     {

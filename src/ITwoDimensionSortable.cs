@@ -24,7 +24,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-interface ITwoDimensionSortable<K,V>
+public interface ITwoDimensionSortable<K,V>
 {
     void Sort(TwoDimensionConstants by);
     void ParallelSort(TwoDimensionConstants by);

@@ -32,6 +32,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using System;
 
-interface IOneDimensionIterable<T> {
+public interface IOneDimensionIterable<T> {
     Int32 GetIndex(T obj);
 }
